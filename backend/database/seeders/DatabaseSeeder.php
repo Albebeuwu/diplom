@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     $this->call([
         FanficRatingsSeeder::class,
         FanficTagsSeeder::class,
+        AdminSeeder::class,
     ]);
 }
 }
