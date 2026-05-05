@@ -1,0 +1,826 @@
+.file-uploader {
+    margin-bottom: 2rem;
+}
+
+.uploader-header h3 {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.uploader-subtitle {
+    color: #a1a1aa;
+    margin-bottom: 1.5rem;
+}
+
+.uploader-error {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.upload-area {
+    border: 2px dashed #52525b;
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #27272a;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-area:hover {
+    border-color: #450a0a;
+    background-color: rgba(69, 10, 10, 0.05);
+}
+
+.upload-area.drag-active {
+    border-color: #450a0a;
+    background-color: rgba(69, 10, 10, 0.1);
+}
+
+.hidden-input {
+    display: none;
+}
+
+/* Состояние загрузки */
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.upload-icon {
+    font-size: 4rem;
+    opacity: 0.7;
+}
+
+.upload-text {
+    color: #a1a1aa;
+}
+
+.drag-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.formats-text, .size-text {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Предпросмотр файла */
+.file-preview {
+    width: 100%;
+    text-align: left;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #3f3f46;
+}
+
+.file-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.file-details {
+    flex: 1;
+}
+
+.file-name {
+    font-size: 1.1rem;
+    color: #fff;
+    margin: 0 0 0.25rem 0;
+    word-break: break-all;
+}
+
+.file-size {
+    color: #a1a1aa;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Предпросмотр текста */
+.text-preview, .pdf-preview {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #18181B;
+    border-radius: 8px;
+    border: 1px solid #3f3f46;
+}
+
+.text-preview h5, .pdf-preview h5 {
+    color: #d4d4d8;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.preview-content {
+    color: #d4d4d8;
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: #2a2a2d;
+    border-radius: 4px;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* Предпросмотр PDF */
+.pdf-viewer {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Действия с файлом */
+.file-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.change-btn, .remove-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.change-btn {
+    background-color: #3f3f46;
+    color: #fff;
+}
+
+.change-btn:hover {
+    background-color: #52525b;
+}
+
+.remove-btn {
+    background-color: #dc2626;
+    color: white;
+}
+
+.remove-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* Справка */
+.uploader-help {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #27272a;
+    border-radius: 8px;
+    border: 1px solid #3f3f46;
+}
+
+.uploader-help h4 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.help-list {
+    color: #a1a1aa;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.help-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.format-tips {
+    padding: 1rem;
+    background-color: rgba(69, 10, 10, 0.1);
+    border-radius: 8px;
+    border: 1px solid #450a0a;
+}
+
+.format-tips p {
+    color: #a1a1aa;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.format-tips p:last-child {
+    margin-bottom: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .upload-area {
+        padding: 1.5rem;
+    }
+    
+    .upload-placeholder {
+        gap: 1rem;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+    }
+    
+    .file-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .file-actions {
+        flex-direction: column;
+    }
+    
+    .change-btn, .remove-btn {
+        width: 100%;
+    }
+    
+        .pdf-viewer {
+        height: 200px;
+    }
+    
+    .uploader-help {
+        padding: 1rem;
+    }
+    
+    .help-list {
+        padding-left: 1rem;
+    }
+}
+
+/* Информация о файле */
+.file-info-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #18181B;
+    border-radius: 8px;
+    border: 1px solid #3f3f46;
+}
+
+.file-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #a1a1aa;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #d4d4d8;
+}
+
+/* Индикатор загрузки */
+.upload-progress {
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #3f3f46;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #450a0a;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    color: #a1a1aa;
+    font-size: 0.8rem;
+}
+
+/* Состояния файла */
+.file-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.file-status.success {
+    background-color: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+}
+
+.file-status.error {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+}
+
+.file-status.warning {
+    background-color: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    color: #fbbf24;
+}
+
+/* Иконки состояний */
+.status-icon {
+    font-size: 1.2rem;
+}
+
+/* Дополнительная информация о форматах */
+.supported-formats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.format-card {
+    padding: 1rem;
+    background-color: #18181B;
+    border-radius: 8px;
+    border: 1px solid #3f3f46;
+    transition: all 0.2s;
+}
+
+.format-card:hover {
+    border-color: #450a0a;
+    transform: translateY(-2px);
+}
+
+.format-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.format-name {
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.format-extensions {
+    color: #a1a1aa;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.format-features {
+    color: #a1a1aa;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* Загрузка нескольких файлов (если нужно в будущем) */
+.multi-file-list {
+    margin-top: 1rem;
+}
+
+.multi-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background-color: #18181B;
+    border-radius: 6px;
+    border: 1px solid #3f3f46;
+    margin-bottom: 0.5rem;
+}
+
+.multi-file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.multi-file-icon {
+    font-size: 1.5rem;
+}
+
+.multi-file-name {
+    color: #d4d4d8;
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+.multi-file-remove {
+    background: none;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.multi-file-remove:hover {
+    background-color: rgba(220, 38, 38, 0.1);
+}
+
+/* Темная тема для PDF просмотрщика */
+.pdf-viewer.dark {
+    filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* Кастомный скроллбар для предпросмотра */
+.preview-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.preview-content::-webkit-scrollbar-track {
+    background: #2a2a2d;
+    border-radius: 4px;
+}
+
+.preview-content::-webkit-scrollbar-thumb {
+    background: #52525b;
+    border-radius: 4px;
+}
+
+.preview-content::-webkit-scrollbar-thumb:hover {
+    background: #71717a;
+}
+
+/* Анимации */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.uploading {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.file-preview {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Тултипы */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #27272a;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #3f3f46;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #27272a transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Кнопка загрузки с иконкой */
+.upload-btn-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #450a0a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin: 0 auto;
+}
+
+.upload-btn-with-icon:hover {
+    background-color: #5a0d0d;
+    transform: translateY(-1px);
+}
+
+.upload-btn-with-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Превью изображений из HTML файлов */
+.html-images-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.html-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #3f3f46;
+}
+
+/* Счетчик файлов */
+.files-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #450a0a;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Загрузка по частям (chunk upload) */
+.chunk-progress {
+    margin-top: 1rem;
+}
+
+.chunk-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #a1a1aa;
+    margin-bottom: 0.25rem;
+}
+
+.chunk-bar {
+    height: 4px;
+    background-color: #3f3f46;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.chunk-fill {
+    height: 100%;
+    background-color: #450a0a;
+    transition: width 0.3s ease;
+}
+
+/* Ошибка валидации */
+.validation-error {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 6px;
+    color: #f87171;
+    font-size: 0.85rem;
+}
+
+.validation-error ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+/* Успешная загрузка */
+.upload-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 3rem;
+    color: #4ade80;
+    margin-bottom: 1rem;
+}
+
+.success-message {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.success-details {
+    color: #a1a1aa;
+    font-size: 0.9rem;
+}
+
+/* Мобильная версия */
+@media (max-width: 480px) {
+    .upload-area {
+        padding: 1rem;
+        min-height: 150px;
+    }
+    
+    .upload-placeholder {
+        gap: 0.75rem;
+    }
+    
+    .upload-icon {
+        font-size: 2.5rem;
+    }
+    
+    .drag-text {
+        font-size: 0.95rem;
+    }
+    
+    .formats-text, .size-text {
+        font-size: 0.8rem;
+    }
+    
+    .file-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .file-icon {
+        font-size: 2.5rem;
+    }
+    
+    .file-details {
+        text-align: center;
+    }
+    
+    .file-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .change-btn, .remove-btn {
+        width: 100%;
+        padding: 0.75rem;
+    }
+    
+    .pdf-viewer {
+        height: 150px;
+    }
+    
+    .text-preview, .pdf-preview {
+        padding: 0.75rem;
+    }
+    
+    .text-preview h5, .pdf-preview h5 {
+        font-size: 0.85rem;
+    }
+    
+    .preview-content {
+        font-size: 0.8rem;
+        max-height: 150px;
+    }
+    
+    .uploader-help {
+        padding: 0.75rem;
+    }
+    
+    .uploader-help h4 {
+        font-size: 0.9rem;
+    }
+    
+    .help-list {
+        font-size: 0.85rem;
+        padding-left: 0.75rem;
+    }
+    
+    .format-tips {
+        padding: 0.75rem;
+    }
+    
+    .format-tips p {
+        font-size: 0.85rem;
+    }
+    
+    .supported-formats {
+        grid-template-columns: 1fr;
+    }
+    
+    .format-card {
+        padding: 0.75rem;
+    }
+    
+    .format-icon {
+        font-size: 1.5rem;
+    }
+    
+    .format-name {
+        font-size: 0.9rem;
+    }
+    
+    .format-extensions, .format-features {
+        font-size: 0.75rem;
+    }
+    
+    .tooltip .tooltip-text {
+        width: 150px;
+        margin-left: -75px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Планшетная версия */
+@media (min-width: 481px) and (max-width: 768px) {
+    .supported-formats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .upload-btn-with-icon {
+        min-width: 200px;
+    }
+}
+
+/* Высокие экраны */
+@media (min-height: 800px) {
+    .upload-area {
+        min-height: 250px;
+    }
+    
+    .pdf-viewer {
+        height: 400px;
+    }
+    
+    .preview-content {
+        max-height: 300px;
+    }
+}
+
+/* Печать */
+@media print {
+    .file-uploader {
+        display: none;
+    }
+}

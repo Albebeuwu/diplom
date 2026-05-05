@@ -1,0 +1,19 @@
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.useful-links{
+    display: flex;
+    gap: 2%;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+.useful-links li{
+    list-style-type: none;
+}
+.useful-links li a{
+    text-decoration: none;
+}

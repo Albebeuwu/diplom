@@ -1,0 +1,113 @@
+.home-sidebar {
+    flex: 0 0 366px; 
+    width: 366px; 
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background-color: rgba(39, 39, 42, 0.8);
+    border-radius: 41px;
+    height: 526px;
+    display: flex;
+    flex-direction: column;
+}
+.home-sidebar-title {
+    margin: 0 0 1.5rem 0;
+    font-size: 3.6rem;
+    line-height: 1.1;
+    color: #d4d4d8;
+    text-align: center;
+    flex-shrink: 0; 
+    font-weight: 400;
+}
+.popular-cards {
+    flex: 1; 
+    overflow-y: auto; 
+    padding-right: 0.5rem; 
+}
+.popular-cards::-webkit-scrollbar {
+    width: 6px;
+}
+.popular-cards::-webkit-scrollbar-track {
+    background: rgba(64, 64, 64, 0.3);
+    border-radius: 3px;
+}
+.popular-cards::-webkit-scrollbar-thumb {
+    background: rgba(212, 212, 216, 0.5);
+    border-radius: 3px;
+}
+.popular-cards::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 212, 216, 0.7);
+}
+@media (max-width: 1366px) {
+    .home-sidebar{
+        height: 500px;
+    }
+    .home-sidebar-title {
+        font-size: 2rem;
+    } 
+}
+@media (max-width: 991px) {
+    .home-sidebar {
+        flex: none;
+        width: calc(100vw - 2rem); 
+        max-width: 100%;
+        height: auto;
+        margin: 1rem auto 0;
+        padding: 1.5rem;
+        box-sizing: border-box;
+    }
+    .popular-cards {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
+    }
+    .popular-cards::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+        background: transparent;
+    }
+    .popular-cards::-webkit-scrollbar-track,
+    .popular-cards::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    .home-sidebar-title{
+        text-align: left;
+    }
+}
+@media (max-width: 767px) {
+    .home-sidebar {
+        padding: 1.25rem;
+        border-radius: 25px;
+        width: calc(100vw - 1.5rem); 
+    }
+    .home-sidebar-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.25rem;
+    }
+}
+@media (max-width: 575px) {
+    .home-sidebar {
+        padding: 1rem;
+        border-radius: 20px;
+        margin-top: 1rem;
+        width: calc(100vw - 1rem); /* Ширина зависит от ширины экрана */
+    }
+    .home-sidebar-title {
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 400px) {
+    .home-sidebar{
+        width: calc(100vw - 1rem); 
+    }
+}
+@media (max-height: 700px) and (min-width: 768px) {
+    .home-sidebar{
+        height: 450px;
+    }
+}

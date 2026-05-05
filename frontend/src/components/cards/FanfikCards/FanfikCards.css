@@ -1,0 +1,489 @@
+.fanfik-card {
+    position: relative;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.fanfik-card-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+.fanfik-card-image {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #670000;
+    height: calc(100% - 248px);
+    border-radius: 41px 41px 0 0;
+    width: 100%;
+}
+.fanfik-card-content {
+    position: absolute;
+    left: 0;
+    border: 1px solid #670000;
+    background-color: #18181b;
+    height: 248px;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0 0 41px 41px;
+}
+.fanfik-category-badge {
+    position: absolute;
+    height: 34px;
+    left: 76px;
+    top: calc(100% - 267px); 
+    width: 138px;
+    z-index: 2;
+}
+.category-badge-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #670000;
+    height: 34px;
+    width: 100%;
+}
+.category-badge-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    height: 19px;
+    top: 7px;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+}
+.fanfik-title {
+    position: absolute;
+    font-size: 24px;
+    font-weight: 600;
+    height: 29px;
+    left: 29px;
+    top: calc(100% - 222px); 
+    width: calc(100% - 80px);
+    color: #ffffff;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fanfik-author {
+    position: absolute;
+    height: 14px;
+    left: 29px;
+    top: calc(100% - 196px); 
+    width: calc(100% - 58px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fanfik-fandom {
+    position: absolute;
+    top: calc(100% - 176px); 
+    height: 14px;
+    left: 29px;
+    width: calc(100% - 58px);
+}
+.fandom-label {
+    font-weight: 500;
+    color: #a1a1aa;
+}
+.fanfik-description {
+    position: absolute;
+    height: 50px;
+    left: 29px;
+    top: calc(100% - 156px); 
+    width: calc(100% - 58px);
+    color: #a1a1aa;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+.fanfik-rating-label {
+    position: absolute;
+    width: 32px;
+    height: 14px;
+    left: 29px;
+    top: calc(100% - 100px); 
+    color: #a1a1aa;
+}
+.fanfik-rating {
+    position: absolute;
+    width: auto;
+    height: 10px;
+    font-size: 20px;
+    left: 74px;
+    top: calc(100% - 104px); 
+    font-weight: bold;
+    color: #86efac;
+}
+.fanfik-status {
+    position: absolute;
+    top: calc(100% - 80px); 
+    height: 14px;
+    left: 29px;
+    width: calc(100% - 58px);
+    color: #a1a1aa;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fanfik-tags {
+    position: absolute;
+    height: 14px;
+    left: 29px;
+    top: calc(100% - 60px); 
+    width: calc(100% - 58px);
+    color: #a1a1aa;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fanfik-views,
+.fanfik-likes-count {
+    background-color: #670000;
+    position: absolute;
+    left: 30px;              
+    top: calc(100% - 440px);
+    font-size: 16px;
+    font-weight: 500;         
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 5px;                 
+}
+.fanfik-likes-count{
+    left: 60px; 
+}
+.fanfik-views-icon,
+.fanfik-likes-hint {
+    font-size: 14px;         
+    font-weight: 400;         
+    color: #a1a1aa;           
+}
+.heart-icon {
+    position: absolute;
+    right: 20px;
+    top: calc(20px); 
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.heart-icon:hover {
+    transform: scale(1.1);
+}
+/* Адаптивность */
+/* Горизонтальные карточки для планшетов и телефонов (до 991px) */
+@media (max-width: 991px) {
+    .fanfik-card {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 180px;
+        margin-bottom: 16px;
+    }
+    
+    .fanfik-card-wrapper {
+        display: flex;
+        flex-direction: row;
+        height: auto;
+        min-height: 180px;
+    }
+    
+    .fanfik-card-image {
+        position: relative;
+        width: 140px;
+        height: 270px;
+        border-radius: 41px 0 0 41px;
+        flex-shrink: 0;
+    }
+    
+    .fanfik-card-content {
+        position: relative;
+        height: auto;
+        flex: 1;
+        border-radius: 0 41px 41px 0;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .fanfik-category-badge {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+        margin-bottom: 8px;
+    }
+    
+    .fanfik-title {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        font-size: 18px;
+        margin-bottom: 5px;
+        white-space: normal;
+        height: auto;
+    }
+    
+    .fanfik-author {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        margin-bottom: 5px;
+        height: auto;
+    }
+    
+    .fanfik-fandom {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        margin-bottom: 5px;
+        height: auto;
+    }
+    
+    .fanfik-description {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        margin-bottom: 8px;
+        -webkit-line-clamp: 2;
+    }
+    
+    .rating-status-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 8px;
+    }
+    
+    .fanfik-rating-label {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: inline-block;
+        height: auto;
+    }
+    
+    .fanfik-rating {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 16px;
+        height: auto;
+    }
+    
+    .fanfik-status {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: auto;
+        margin-left: 15px;
+        display: inline-block;
+        height: auto;
+    }
+    
+    .fanfik-tags {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        margin-bottom: 8px;
+        height: auto;
+        white-space: normal;
+    }
+    
+    .fanfik-views,
+    .fanfik-likes-count {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: inline-flex;
+        background: none;
+        color: #a1a1aa;
+        gap: 3px;
+        margin-right: 10px;
+    }
+    
+    .fanfik-likes-count {
+        left: auto;
+    }
+    
+    .views-likes-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 5px;
+    }
+    
+    .heart-icon {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 28px;
+        height: 28px;
+        margin-left: auto;
+    }
+    
+    .fanfik-custom-actions {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+/* Дополнительная настройка для маленьких телефонов (до 576px) */
+@media (max-width: 576px) {
+    .fanfik-card-image {
+        width: 110px;
+        height: 230px;
+    }
+    
+    .fanfik-card-content {
+        padding: 10px;
+    }
+    
+    .fanfik-title {
+        font-size: 16px;
+    }
+    
+    .fanfik-author,
+    .fanfik-fandom,
+    .fanfik-description {
+        font-size: 12px;
+    }
+    
+    .fanfik-description {
+        -webkit-line-clamp: 2;
+    }
+    
+    .rating-status-row {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .fanfik-rating {
+        font-size: 14px;
+    }
+    
+    .fanfik-status {
+        font-size: 12px;
+    }
+    
+    .fanfik-tags {
+        font-size: 11px;
+    }
+    
+    .heart-icon {
+        width: 24px;
+        height: 24px;
+        right: 2%;
+    }
+}
+/* Кастомные действия для карточки */
+.fanfik-custom-actions {
+    position: absolute;
+    bottom: 12px;
+    left: 29px;
+    right: 29px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    z-index: 3;
+}
+
+.custom-action-btn {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #3f3f46;
+    color: #ffffff;
+}
+
+.custom-action-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Стили для разных типов кнопок */
+.custom-action-btn.edit-action {
+    background-color: #670000;
+}
+
+.custom-action-btn.edit-action:hover {
+    background-color: #8b0000;
+}
+
+.custom-action-btn.submit-action {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.custom-action-btn.submit-action:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+.custom-action-btn.delete-action {
+    background-color: #dc2626;
+}
+
+.custom-action-btn.delete-action:hover {
+    background-color: #b91c1c;
+}
+
+.custom-action-btn.view-action {
+    background-color: #3f3f46;
+}
+
+.custom-action-btn.view-action:hover {
+    background-color: #52525b;
+}
+
+/* Адаптивность для кнопок */
+@media (max-width: 768px) {
+    .fanfik-custom-actions {
+        left: 15px;
+        right: 15px;
+        bottom: 8px;
+    }
+    
+    .custom-action-btn {
+        padding: 3px 8px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fanfik-custom-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .custom-action-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

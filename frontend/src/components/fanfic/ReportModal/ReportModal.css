@@ -1,0 +1,179 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.modal-content {
+    background-color: #27272a;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #3f3f46;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.5rem;
+    font-family: "Unbounded", sans-serif;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+.modal-body {
+    color: #d4d4d8;
+}
+
+.fanfic-title-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #18181B;
+    border-radius: 8px;
+}
+
+.fanfic-title-info strong {
+    color: #fff;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #a1a1aa;
+    font-weight: 500;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #18181B;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #450a0a;
+}
+
+.char-counter {
+    text-align: right;
+    margin-top: 0.25rem;
+    color: #a1a1aa;
+    font-size: 0.875rem;
+}
+
+.error-message {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.cancel-btn, .submit-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.cancel-btn {
+    background-color: #3f3f46;
+    color: #d4d4d8;
+}
+
+.cancel-btn:hover:not(:disabled) {
+    background-color: #52525b;
+}
+
+.submit-btn {
+    background-color: #dc2626;
+    color: white;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.cancel-btn:disabled, .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.report-info {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #18181B;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #a1a1aa;
+    line-height: 1.5;
+}
+
+.info-icon {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .cancel-btn, .submit-btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  color: #D9D9D9;
+  font-family: "Alumni Sans", sans-serif;
+}
+body {
+  background-image: url('Главная страница.png');
+}
+h1{
+  font-family: "Unbounded", sans-serif;
+  font-weight: 400;
+}
+input, textarea{
+  box-sizing: border-box;
+}
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+.main-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #18181B;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #450a0a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5a0d0d;
+}
+/* Для кастомного фона */
+/* Кастомный фон для сайта */
+body.custom-background {
+    position: relative;
+    min-height: 100vh;
+}
+
+body.custom-background::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--background-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -2;
+}
+
+
+body.custom-background::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: -1;
+}
+
+/* Для страниц чтения фанфиков - более темный оверлей */
+body.custom-background.fanfic-reading::after {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* Контент поверх фона */
+.app-container {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}

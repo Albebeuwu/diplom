@@ -1,0 +1,529 @@
+/* Кнопка "Назад" */
+.back-button {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: transparent;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: 20px;
+    width: fit-content;
+    z-index: 2;
+}
+
+.back-button:hover {
+    color: #fff;
+    transform: translateX(-4px);
+}
+
+.back-button:active {
+    transform: translateX(-2px);
+}
+
+.author-page {
+    min-height: 100vh;
+    background-color: #18181B;
+    color: #fff;
+}
+
+/* Шапка автора */
+.author-header {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.author-cover {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.author-cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(24,24,27,1) 100%);
+}
+
+.author-info-container {
+    position: relative;
+    max-width: 1200px;
+    margin: -100px auto 0;
+    padding: 0 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+.author-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 4px solid #670000;
+    background: linear-gradient(135deg, #450a0a, #7c2d12);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-circle-initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #450a0a, #7c2d12);
+}
+
+.author-details {
+    flex: 1;
+    padding-bottom: 1rem;
+}
+
+.author-name {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-family: "Unbounded", sans-serif;
+    color: #fff;
+}
+
+.author-bio {
+    color: #a1a1aa;
+    margin-bottom: 1rem;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.author-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.stat-label {
+    color: #a1a1aa;
+    font-size: 0.9rem;
+}
+
+.subscribe-btn {
+    padding: 0.75rem 2rem;
+    background-color: #450a0a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.subscribe-btn:hover {
+    background-color: #670000;
+    transform: translateY(-2px);
+}
+
+.subscribe-btn.subscribed {
+    background-color: #10b981;
+}
+
+.subscribe-btn.subscribed:hover {
+    background-color: #059669;
+}
+
+/* Вкладки */
+.author-tabs {
+    display: flex;
+    gap: 1rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    border-bottom: 1px solid #3f3f46;
+}
+
+.tab-btn {
+    padding: 1rem 2rem;
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+.tab-btn.active {
+    color: #fff;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #670000;
+}
+
+.tab-btn.locked {
+    opacity: 0.7;
+}
+
+.lock-icon {
+    font-size: 0.9rem;
+}
+
+/* Контент */
+.author-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+}
+
+.author-fanfics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(289px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+}
+
+.no-content {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #27272a;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+}
+
+.no-content p {
+    color: #a1a1aa;
+    font-size: 1.1rem;
+}
+
+/* Премиум блок */
+.premium-lock {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(145deg, #27272a, #1f1f23);
+    border-radius: 20px;
+    border: 1px solid #3f3f46;
+}
+
+.lock-icon-large {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+}
+
+.premium-lock h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-family: "Unbounded", sans-serif;
+}
+
+.premium-lock p {
+    color: #a1a1aa;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.premium-features {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    background-color: #18181B;
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.premium-features li {
+    padding: 0.75rem 0;
+    color: #d4d4d8;
+    border-bottom: 1px solid #3f3f46;
+    font-size: 1rem;
+}
+
+.premium-features li:last-child {
+    border-bottom: none;
+}
+
+.premium-subscribe-btn {
+    padding: 1rem 3rem;
+    background: linear-gradient(135deg, #450a0a, #670000);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.premium-subscribe-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(103, 0, 0, 0.3);
+}
+
+/* Список доп контента */
+.extra-content-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.extra-content-card {
+    background-color: #27272a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #3f3f46;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.extra-content-card:hover {
+    border-color: #670000;
+    transform: translateX(5px);
+}
+
+.extra-content-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #450a0a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.extra-content-info {
+    flex: 1;
+}
+
+.extra-content-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.extra-content-info p {
+    color: #a1a1aa;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.extra-content-meta {
+    display: flex;
+    gap: 1rem;
+    color: #71717a;
+    font-size: 0.9rem;
+}
+
+.content-type {
+    padding: 0.25rem 0.75rem;
+    background-color: #3f3f46;
+    border-radius: 20px;
+}
+
+.view-content-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #670000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.view-content-btn:hover {
+    background-color: #670000;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .author-info-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: -50px;
+    }
+
+    .author-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .author-stats {
+        justify-content: center;
+    }
+
+    .author-tabs {
+        justify-content: center;
+        padding: 0 1rem;
+    }
+
+    .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .extra-content-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .extra-content-meta {
+        justify-content: center;
+    }
+
+    .view-content-btn {
+        width: 100%;
+    }
+
+    .premium-lock {
+        padding: 2rem 1rem;
+    }
+
+    .premium-lock h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .author-name {
+        font-size: 1.8rem;
+    }
+
+    .author-stats {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .stat-item {
+        width: calc(50% - 0.5rem);
+    }
+
+    .author-fanfics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Бейджи для премиум контента */
+.fanfic-card-wrapper {
+    position: relative;
+}
+
+.fanfic-badges {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.premium-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.public-available-badge {
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffd700;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+}
+
+/* Для карточек в экстра контенте */
+.extra-content-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.early-access-badge, .exclusive-badge, .survey-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.early-access-badge {
+    background: #670000;
+    color: white;
+}
+
+.exclusive-badge {
+    background: #670000;
+    color: white;
+}
+
+.survey-badge {
+    background: #670000;
+    color: white;
+}
+
+@media(max-width: 991px){
+    .fanfic-badges{
+        right: 0;
+        left: 20px;
+    }
+}

@@ -1,0 +1,428 @@
+.home-page {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.main-content {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+}
+.main-head {
+    position: relative;
+    width: 100%;
+}
+.background-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     
+    object-position: center; 
+    display: block;         
+}
+.content-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 0 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+.main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 8rem;
+    font-weight: 300;
+    line-height: 0.8; 
+    margin: 0 0 2rem 0;
+    text-transform: uppercase;
+}
+.main-title span {
+    display: block;
+    transform: scaleX(1.3) scaleY(0.7);
+    transform-origin: left top;
+    font-family: "Unbounded", sans-serif;
+}
+.animated-word {
+    display: inline-block;
+    position: relative;
+    transform-origin: left top;
+}
+.word {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    transform: scaleX(1.1) scaleY(1.2);
+    transform-origin: left top;
+    font-family: "Unbounded", sans-serif;
+}
+.word::after {
+    content: '|';
+    position: relative;
+    right: 0;
+    animation: blink 0.7s step-end infinite;
+    margin-left: 5px;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.home-subtitle {
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 300;
+    margin: 0 0 1rem 0;
+}
+/*рекомендации*/
+.recommendations{
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+    padding-left: 114px;
+    box-sizing: border-box;
+}
+.story-cards-container{
+    margin-top: 32px;
+}
+.story-cards-header{
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    justify-content: space-between;
+}
+.story-cards-header h2{
+    font-weight: 400; 
+    font-size: 3rem;  
+}
+.story-cards-header button{
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 1.1rem;
+    border-radius: 28px;
+    background-color: #670000;
+    border: none;
+    cursor: pointer;
+}
+.for-you{
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.home-stars {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none; 
+}
+.home-stars .home-star {
+    position: absolute;
+    animation: sway 3s ease-in-out infinite;
+}
+.home-stars .home-star:nth-child(1) {
+    top: 38%;
+    left: 17%;
+    animation-duration: 4s;
+    animation-delay: 0s;
+}
+.home-stars .home-star:nth-child(2) {
+    top: 28%;
+    right: 6%;
+    animation-duration: 3.5s;
+    animation-delay: 0.5s;
+}
+@keyframes sway {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.girl{
+    position: absolute;
+    z-index: 1;
+    pointer-events: none; 
+    top: 20%;
+    right: 0; 
+}
+/*огненные работы*/
+.fire-works{
+    margin: auto;
+    margin-top: 60px;
+    width: 75%;
+}
+.fire-works .story-cards-header{
+    max-width: 1700px;
+}
+.top-fire-works{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: flex-end;
+}
+.top-fire-works .fanfik-card{
+    margin-top: 15px;
+}
+.home-star-fire{
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none; 
+    top: 47%;
+    left: 57%;
+}
+.boy{
+    position: absolute;
+    z-index: -1;
+    pointer-events: none; 
+    top: 47.5%;
+    left: 0; 
+}
+/*рейтинги*/
+.rating{
+    margin: auto;
+    margin-top: 120px;
+    width: 90%;
+    margin-bottom: 20px;
+}
+.rating-cards-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1%;
+}
+.rating-header h2{
+    font-weight: 400; 
+    font-size: 3rem; 
+}
+.rating-subtitle{
+    font-size: 1.5rem;
+}
+.rating-note{
+    margin-top: 15px;
+}
+/*адоптация*/
+@media (max-width: 1880px){
+    .girl{
+        top: 28%;
+        width: 18%;
+    }
+    .home-star-fire{
+        top: 50%;
+        width: 30%;
+    }
+}
+@media (max-width: 1771px){
+    .girl{
+        display: none;
+    }
+}
+@media (max-width: 1729px){
+    .recommendations{
+        align-items: flex-start;
+    }
+}
+@media (max-width: 1669px){
+    .top-fire-works {
+        justify-content: center;
+    }
+    .fire-works{
+        width: 90%;
+    }
+}
+@media (max-width: 1490px){
+    .recommendations{
+        padding: 0 20px;
+        justify-content: center;
+    }
+}
+@media (max-width: 1393px) {
+    .boy{
+        top: 50%;
+        width: 80%;
+    }
+}
+@media (max-width: 1366px) {
+    .main-head {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+    .content-overlay {
+        padding: 1.5rem 2rem;
+    }
+    .boy{
+        display: none;
+    }
+}
+@media(max-width: 1217px){
+    .main-title {
+        margin-top: 120px;
+        font-size: 90px;
+    }
+    .main-content{
+        height: 70vh;
+    }
+}
+@media(max-width: 1169px){
+    .home-star-fire,  .home-star{
+        display: none;
+    }
+}
+@media (max-width: 991px) {
+    .home-page {
+        padding: 0 0.5rem;
+    }
+    .main-head {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0;
+        align-items: center; 
+        width: 100%;
+    }
+    .main-content {
+        display: none;
+    }
+    .home-sidebar {
+        flex: none;
+        width: 100%;
+        max-width: 600px; 
+        height: auto;
+        margin: 0 auto; 
+        padding: 1.5rem;
+        box-sizing: border-box;
+    }
+    .recommendations {
+        flex-direction: column;
+        align-items: center; 
+        width: 100%;
+        margin: 0 auto;
+        gap: 2rem;
+    }
+    .story-cards-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .story-cards-header {
+        width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+    .for-you {
+        justify-content: center;
+        gap: 1.5rem;
+        width: 100%;
+    }
+    .fire-works {
+        width: 100%;
+        max-width: 600px;
+        margin: 2rem auto 0;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+    .top-fire-works {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    .rating {
+        width: 100%;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+    .rating-cards-container {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+}
+@media (max-width: 991px) and (min-width: 768px) {
+    .popular-cards {
+        scroll-snap-type: x mandatory;
+    }
+}
+@media (max-width: 767px) {
+    .main-head {
+        padding: 0 0.75rem;
+    }
+    .main-content {
+        border-radius: 25px;
+    }
+    .background-image {
+        border-radius: 25px;
+    }
+    .content-overlay {
+        padding: 1.25rem;
+        border-radius: 25px;
+    }
+    .main-title {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+    }
+    .subtitle {
+        font-size: 1.8rem;
+    }
+}
+@media (max-width: 575px) {
+    .main-head {
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    .main-content {
+        border-radius: 20px;
+        margin-top: 1rem;
+    }
+    .background-image {
+        border-radius: 20px;
+    }
+    .content-overlay {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+    .main-title {
+        font-size: 2.2rem;
+        margin-bottom: 0.75rem;
+    }
+    .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+}
+@media (max-width: 400px) {
+    .main-content {
+        height: 250px;
+    }
+    .main-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    .subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+}
+@media (max-height: 700px) and (min-width: 768px) {
+    .main-content {
+        height: 450px;
+    }
+}
+@media (min-width: 992px) {
+    .background-image {
+        transition: transform 0.5s ease;
+    }
+}

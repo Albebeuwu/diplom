@@ -1,0 +1,508 @@
+.admin-panel {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: rgba(39, 39, 42, 0.8);
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #3f3f46;
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    font-family: "Unbounded", sans-serif;
+}
+
+.logout-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #b91c1c;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #3f3f46;
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+.tab-btn.active {
+    color: #fff;
+    border-bottom-color: #450a0a;
+}
+
+.error-message {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+/* Стили для таблицы пользователей */
+.users-container, .fanfics-container, .stats-container {
+    background-color: #27272a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #3f3f46;
+}
+
+.users-container h2, .fanfics-container h2, .stats-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    font-family: "Unbounded", sans-serif;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #18181B;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.users-table th {
+    background-color: #3f3f46;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+}
+
+.users-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #3f3f46;
+    color: #d4d4d8;
+}
+
+.users-table tr:last-child td {
+    border-bottom: none;
+}
+
+.users-table tr:hover {
+    background-color: #2a2a2d;
+}
+
+.role-select {
+    padding: 0.5rem;
+    background-color: #3f3f46;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.delete-btn {
+    padding: 0.5rem 1rem;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.delete-btn:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Стили для списка фанфиков */
+.fanfics-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.fanfic-card {
+    background-color: #18181B;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #3f3f46;
+}
+
+.fanfic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.fanfic-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.fanfic-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #a1a1aa;
+    font-size: 0.875rem;
+}
+
+.fanfic-description {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+    line-height: 1.5;
+}
+
+.fanfic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    padding: 0.25rem 0.75rem;
+    background-color: #3f3f46;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #a1a1aa;
+}
+
+.fanfic-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.approve-btn, .reject-btn, .view-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.approve-btn {
+    background-color: #059669;
+    color: white;
+}
+
+.approve-btn:hover {
+    background-color: #047857;
+}
+
+.reject-btn {
+    background-color: #dc2626;
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #b91c1c;
+}
+
+.view-btn {
+    background-color: #3f3f46;
+    color: #fff;
+    padding: 0.5rem 1rem;
+}
+
+.view-btn:hover {
+    background-color: #52525b;
+}
+
+.no-fanfics {
+    text-align: center;
+    color: #a1a1aa;
+    padding: 2rem;
+}
+/* Стили для заблокированного пользователя */
+.blocked-user {
+    background-color: rgba(220, 38, 38, 0.05);
+}
+
+.blocked-user:hover {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-badge.active {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.blocked {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    cursor: help;
+}
+
+.block-btn, .unblock-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.block-btn {
+    background-color: #dc2626;
+    color: white;
+}
+
+.block-btn:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.block-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.unblock-btn {
+    background-color: #059669;
+    color: white;
+}
+
+.unblock-btn:hover {
+    background-color: #047857;
+}
+
+.confirm-block-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.confirm-block-btn:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.confirm-block-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.warning-text {
+    color: #f87171;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(220, 38, 38, 0.1);
+    border-radius: 4px;
+    border-left: 3px solid #dc2626;
+}
+/* Статистика */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    background-color: #18181B;
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 1px solid #3f3f46;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: #52525b;
+}
+
+.stat-card h3 {
+    font-size: 0.875rem;
+    color: #a1a1aa;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}
+
+.stat-number {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #fff;
+    font-family: "Unbounded", sans-serif;
+}
+
+/* Модальное окно */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #27272a;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #3f3f46;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #fff;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+.modal-body {
+    margin-bottom: 1.5rem;
+}
+
+.modal-body p {
+    margin-bottom: 1rem;
+    color: #d4d4d8;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.cancel-btn, .confirm-reject-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.cancel-btn {
+    background-color: #3f3f46;
+    color: #d4d4d8;
+}
+
+.cancel-btn:hover {
+    background-color: #52525b;
+}
+
+.confirm-reject-btn {
+    background-color: #dc2626;
+    color: white;
+}
+
+.confirm-reject-btn:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.confirm-reject-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.access-denied {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.access-denied h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.access-denied p {
+    color: #a1a1aa;
+    font-size: 1.1rem;
+}
+
+.stat-card:nth-child(3) .stat-number {
+    color: #ef4444;
+}

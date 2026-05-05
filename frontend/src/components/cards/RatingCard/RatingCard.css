@@ -1,0 +1,106 @@
+.rating-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(39, 39, 42, 0.8);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  max-width: 20%;
+  margin-top: 15px;
+}
+.rating-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.rating-color {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #18181B;
+}
+.rating-code {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: "Unbounded", sans-serif;
+}
+.rating-content {
+  flex: 1;
+}
+.rating-title {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  font-family: "Unbounded", sans-serif;
+  font-weight: 600;
+}
+.rating-card-description {
+  font-size: 1.1rem;
+  color: #d4d4d8;
+  margin: 0;
+  line-height: 1.5;
+}
+.rating-description b {
+  color: #fff;
+  font-weight: 600;
+}
+/* Адаптивные стили */
+@media (max-width: 1308px) {
+  .rating-title{
+    font-size: 0.9rem;
+  }
+  .rating-description{
+    font-size: 0.7rem;
+  }
+}
+@media(max-width: 1177px) {
+  .rating-color{
+    display: none;
+  } 
+}
+@media (max-width: 768px) {
+  .rating-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    max-width: 30%;
+  }
+  .rating-color {
+    width: 50px;
+    height: 50px;
+  }
+  .rating-code {
+    font-size: 1.25rem;
+  }
+  .rating-title {
+    font-size: 1.25rem;
+  }
+  .rating-description {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 480px) {
+  .rating-card {
+    padding: 1rem;
+  }
+  .rating-color {
+    width: 45px;
+    height: 45px;
+  }
+  .rating-title {
+    font-size: 1.1rem;
+  }
+  .rating-description {
+    font-size: 0.85rem;
+  }
+}

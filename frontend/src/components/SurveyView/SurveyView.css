@@ -1,0 +1,457 @@
+/* Оверлей модального окна */
+.survey-view-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Модальное окно */
+.survey-view-modal {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Стилизация скроллбара */
+.survey-view-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.survey-view-modal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.survey-view-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 53, 0.5);
+    border-radius: 10px;
+}
+
+.survey-view-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 107, 53, 0.8);
+}
+
+/* Заголовок модального окна */
+.survey-view-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background: inherit;
+    z-index: 10;
+}
+
+.survey-view-modal .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 600;
+    background: linear-gradient(135deg, #fff, #ff6b35);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.survey-view-modal .close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.survey-view-modal .close-btn:hover {
+    background: rgba(239, 68, 68, 0.8);
+    transform: rotate(90deg);
+}
+
+/* Описание опроса */
+.survey-description {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    margin: 0 0 16px 0;
+    color: #b0b0b0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Секция результатов */
+.survey-results {
+    padding: 20px 24px;
+}
+
+.survey-results h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+/* Карточка вопроса в результатах */
+.result-question {
+    margin-bottom: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.result-question h4 {
+    color: #ff6b35;
+    font-size: 1rem;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.result-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.result-option {
+    width: 100%;
+}
+
+.result-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.result-label span:first-child {
+    color: #e0e0e0;
+}
+
+.result-stats {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+/* Прогресс-бар */
+.progress-bar {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #ff6b35, #f7931e);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Всего голосов */
+.total-votes {
+    margin-top: 24px;
+    padding-top: 16px;
+    text-align: center;
+    color: #888;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Секция голосования */
+.survey-voting {
+    padding: 20px 24px;
+}
+
+.questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 24px;
+}
+
+/* Карточка вопроса для голосования */
+.vote-question {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vote-question:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 107, 35, 0.3);
+}
+
+.vote-question h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+}
+
+.question-type {
+    color: #ff6b35;
+    font-size: 0.75rem;
+    margin: 0 0 16px 0;
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 107, 35, 0.1);
+    border-radius: 20px;
+}
+
+/* Опции для голосования */
+.vote-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vote-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.vote-option:hover {
+    background: rgba(255, 107, 35, 0.1);
+    transform: translateX(4px);
+}
+
+.vote-option input[type="radio"],
+.vote-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #ff6b35;
+}
+
+.vote-option span {
+    color: #d0d0d0;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+/* Кнопка отправки голоса */
+.submit-vote-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 16px;
+}
+
+.submit-vote-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 35, 0.3);
+}
+
+.submit-vote-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Лоадер */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 1rem;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    border: 2px solid rgba(255, 107, 35, 0.3);
+    border-top-color: #ff6b35;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #ef4444;
+    font-size: 1rem;
+}
+
+.error-message button {
+    margin-top: 20px;
+    padding: 10px 24px;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.error-message button:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* Адаптив для мобильных устройств */
+@media (max-width: 768px) {
+    .survey-view-modal {
+        width: 95%;
+        max-height: 90vh;
+        border-radius: 20px;
+    }
+
+    .survey-view-modal .modal-header {
+        padding: 16px 20px;
+    }
+
+    .survey-view-modal .modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .survey-description,
+    .survey-results,
+    .survey-voting {
+        padding: 16px 20px;
+    }
+
+    .result-question,
+    .vote-question {
+        padding: 14px;
+    }
+
+    .result-label {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .vote-option {
+        padding: 8px 12px;
+    }
+
+    .vote-option span {
+        font-size: 0.85rem;
+    }
+
+    .submit-vote-btn {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Анимация появления результатов */
+.result-question {
+    animation: fadeInUp 0.3s ease;
+    animation-fill-mode: both;
+}
+
+.result-question:nth-child(1) { animation-delay: 0.05s; }
+.result-question:nth-child(2) { animation-delay: 0.1s; }
+.result-question:nth-child(3) { animation-delay: 0.15s; }
+.result-question:nth-child(4) { animation-delay: 0.2s; }
+.result-question:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
