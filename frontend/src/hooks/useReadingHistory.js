@@ -8,7 +8,7 @@ export const useReadingHistory = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241';
+    const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241/api';
 
     // Автоматическая синхронизация при логине
     useEffect(() => {
@@ -31,7 +31,7 @@ export const useReadingHistory = () => {
                     progress_percent: item.progress || 0  // progress -> progress_percent
                 }));
 
-                const response = await fetch(`${API_URL}/api/reading-history/sync`, {
+                const response = await fetch(`${API_URL}/reading-history/sync`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -67,7 +67,7 @@ export const useReadingHistory = () => {
             setLoading(true);
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`${API_URL}/api/reading-history`, {
+            const response = await fetch(`${API_URL}/reading-history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json'
@@ -126,7 +126,7 @@ export const useReadingHistory = () => {
                 progress_percent: progressPercent
             });
             
-            const response = await fetch(`${API_URL}/api/fanfics/${fanficId}/progress`, {
+            const response = await fetch(`${API_URL}/fanfics/${fanficId}/progress`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -169,7 +169,7 @@ export const useReadingHistory = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await fetch(`${API_URL}/api/reading-history/${fanficId}`, {
+            await fetch(`${API_URL}/reading-history/${fanficId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
