@@ -1,0 +1,15 @@
+{
+  "name": "diploma-betta",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:backend": "cd backend && php artisan serve",
+    "dev:frontend": "cd frontend && npm start",
+    "dev": "npx concurrently \"npm run dev:frontend\" \"npm run dev:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "dependencies": {
+    "query-string": "^9.3.1"
+  }
+}
