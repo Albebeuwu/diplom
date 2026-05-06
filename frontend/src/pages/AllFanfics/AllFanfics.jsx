@@ -105,7 +105,7 @@ function AllFanfics() {
                 views: fanfic.views ?? 0,
                 liked: likedIds.includes(fanfic.id),
                 cover_image: fanfic.cover_image
-                    ? `${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.cover_image}`
+                    ? `http://45.147.179.241/storage/${fanfic.cover_image}`
                     : null,
                 // ДОБАВЛЕНО: поля для эксклюзивного контента
                 is_early_access: fanfic.is_early_access || false,
