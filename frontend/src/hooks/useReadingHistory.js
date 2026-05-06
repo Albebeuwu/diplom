@@ -8,7 +8,7 @@ export const useReadingHistory = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241';
 
     // Автоматическая синхронизация при логине
     useEffect(() => {

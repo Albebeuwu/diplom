@@ -50,7 +50,7 @@ function Favorites() {
                 liked: true, // В избранном всегда лайкнуто
                 views: fanfic.views ?? 0,
                 cover_image: fanfic.cover_image
-                    ? `http://localhost:8000/storage/${fanfic.cover_image}`
+                    ? `http://45.147.179.241/storage/${fanfic.cover_image}`
                     : null,
                 is_early_access: fanfic.is_early_access || false,
                 early_access_until: fanfic.early_access_until,

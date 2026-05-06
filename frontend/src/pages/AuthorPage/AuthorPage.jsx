@@ -178,7 +178,7 @@ function AuthorPage() {
         liked: fanfic.is_liked || false,
         views: fanfic.views ?? 0,
         cover_image: fanfic.cover_image 
-            ? `http://localhost:8000/storage/${fanfic.cover_image}`
+            ? `http://45.147.179.241/storage/${fanfic.cover_image}`
             : null,
         // ДОБАВЬТЕ ЭТИ ПОЛЯ
         is_early_access: fanfic.is_early_access || false,
