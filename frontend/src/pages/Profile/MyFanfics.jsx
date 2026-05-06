@@ -40,7 +40,7 @@ function MyFanfics() {
                 liked: fanfic.is_liked || false,
                 // ВАЖНО: правильный путь к обложке
                 cover_image: fanfic.cover_image 
-                    ? `http://localhost:8000/storage/${fanfic.cover_image}`
+                    ? `http://45.147.179.241/storage/${fanfic.cover_image}`
                     : null,
                 views: fanfic.views ?? 0,
                 customStatus: fanfic.status,

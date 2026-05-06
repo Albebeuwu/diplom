@@ -164,7 +164,7 @@ function HomePage() {
             views: fanfic.views ?? 0,
             liked: false,
             cover_image: fanfic.cover_image ? 
-              `http://localhost:8000/storage/${fanfic.cover_image}` : 
+              `http://45.147.179.241/storage/${fanfic.cover_image}` : 
               null,
             user_id: fanfic.user_id,
             // ДОБАВЛЕНО: поля для эксклюзивного контента
@@ -213,7 +213,7 @@ function HomePage() {
           views: fanfic.views ?? 0,
           liked: false,
           cover_image: fanfic.cover_image ? 
-            `http://localhost:8000/storage/${fanfic.cover_image}` : 
+            `http://45.147.179.241/storage/${fanfic.cover_image}` : 
             null,
           user_id: fanfic.user_id,
           // ДОБАВЛЕНО: поля для эксклюзивного контента

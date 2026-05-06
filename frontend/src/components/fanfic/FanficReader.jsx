@@ -136,7 +136,7 @@ function FanficReader() {
         
         try {
             const token = localStorage.getItem('token');
-            const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+            const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241';
             
             // Загружаем историю с сервера
             const response = await fetch(`${API_URL}/api/reading-history`, {
@@ -701,7 +701,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.file_path}`} 
+                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.file_path}`} 
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -846,7 +846,7 @@ function FanficReader() {
                     {fanfic.cover_image && (
                         <div className="fanfic-cover">
                             <img 
-                                src={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.cover_image}`} 
+                                src={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.cover_image}`} 
                                 alt={fanfic.title}
                                 onError={(e) => {
                                     e.target.style.display = 'none';

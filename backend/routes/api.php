@@ -220,16 +220,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{id}/approve', [AdminReportController::class, 'approve']);
             Route::post('/{id}/reject', [AdminReportController::class, 'reject']);
         });
-
-        // =======================
-        // Админские маршруты для управления комментариями
-        // =======================
-        Route::prefix('comments')->group(function () {
-            Route::get('/', [AdminCommentController::class, 'index']);
-            Route::get('/{id}', [AdminCommentController::class, 'show']);
-            Route::delete('/{id}', [AdminCommentController::class, 'destroy']);
-            Route::post('/{id}/restore', [AdminCommentController::class, 'restore']);
-        });
     });
 });
 
