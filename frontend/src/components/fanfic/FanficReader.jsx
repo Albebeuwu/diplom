@@ -136,10 +136,10 @@ function FanficReader() {
         
         try {
             const token = localStorage.getItem('token');
-            const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241';
+            const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241/api';
             
             // Загружаем историю с сервера
-            const response = await fetch(`${API_URL}/api/reading-history`, {
+            const response = await fetch(`${API_URL}/reading-history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json'
