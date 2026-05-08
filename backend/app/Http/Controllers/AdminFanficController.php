@@ -37,7 +37,7 @@ class AdminFanficController extends Controller
         // Фильтр по тегам
         if ($request->has('tags') && is_array($request->tags)) {
             $query->whereHas('tags', function($q) use ($request) {
-                $q->whereIn('fanfic_tags.id', $request->tags);
+                $q->whereIn('id', $request->tags);
             });
         }
         
