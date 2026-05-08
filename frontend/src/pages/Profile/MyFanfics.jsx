@@ -15,15 +15,16 @@ function MyFanfics() {
         current_page: 1,
         last_page: 1,
         total: 0,
+        per_page: 6 
     });
 
     const loadFanfics = useCallback(async (status, page = 1) => {
         try {
             setLoading(true);
             const filterStatus = status === 'all' ? null : status;
-            const data = await fanficService.getMyFanfics(filterStatus, page);
+            // Передаем параметры пагинации в сервис
+            const data = await fanficService.getMyFanfics(filterStatus, page, pagination.per_page);
             
-            // Форматируем данные ТОЧНО ТАК ЖЕ, как на главной странице
             const formattedFanfics = (Array.isArray(data.data) ? data.data : (data || [])).map(fanfic => ({
                 id: fanfic.id,
                 title: fanfic.title,
@@ -38,7 +39,6 @@ function MyFanfics() {
                 tags: fanfic.tags?.map(tag => tag.name).join(', ') || 'Без тегов',
                 likes: fanfic.likes_count ?? fanfic.likes ?? 0,
                 liked: fanfic.is_liked || false,
-                // ВАЖНО: правильный путь к обложке
                 cover_image: fanfic.cover_image 
                     ? `http://45.147.179.241/storage/${fanfic.cover_image}`
                     : null,
@@ -57,6 +57,7 @@ function MyFanfics() {
                 current_page: data.current_page || 1,
                 last_page: data.last_page || 1,
                 total: data.total || 0,
+                per_page: pagination.per_page
             });
         } catch (error) {
             console.error('Ошибка загрузки фанфиков:', error);
@@ -64,7 +65,7 @@ function MyFanfics() {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [pagination.per_page]);
 
     const getCategoryFromStatus = (status) => {
         const categoryMap = {
@@ -83,6 +84,7 @@ function MyFanfics() {
 
     const handleFilterChange = (filterId) => {
         setActiveFilter(filterId);
+        setPagination(prev => ({ ...prev, current_page: 1 }));
         setSearchParams({ tab: 'my-fanfics', status: filterId });
     };
 
@@ -100,7 +102,7 @@ function MyFanfics() {
         }
         try {
             await fanficService.deleteFanfic(id);
-            await loadFanfics(activeFilter);
+            await loadFanfics(activeFilter, pagination.current_page);
             setMessage({ type: 'success', text: 'Фанфик успешно удален' });
             setTimeout(() => setMessage({ type: '', text: '' }), 3000);
         } catch (error) {
@@ -111,7 +113,7 @@ function MyFanfics() {
     const handleSubmitForReview = async (id) => {
         try {
             await fanficService.submitForReview(id);
-            await loadFanfics(activeFilter);
+            await loadFanfics(activeFilter, pagination.current_page);
             setMessage({ type: 'success', text: 'Фанфик отправлен на модерацию' });
             setTimeout(() => setMessage({ type: '', text: '' }), 3000);
         } catch (error) {
@@ -130,12 +132,16 @@ function MyFanfics() {
         { id: 'approved', label: 'Опубликованные' },
         { id: 'rejected', label: 'Отклоненные' },
     ];
-    
 
+    const handlePageChange = (page) => {
+        setPagination(prev => ({ ...prev, current_page: page }));
+        loadFanfics(activeFilter, page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
     return (
         <div className="my-fanfics">
             <div className="fanfics-header">
-                <h2>Мои работы</h2>
                 <button className="create-btn" onClick={handleCreateNew}>
                     + Создать новый
                 </button>
@@ -155,7 +161,7 @@ function MyFanfics() {
                         onClick={() => handleFilterChange(filter.id)}
                     >
                         {filter.label}
-                        {filter.count !== undefined && filter.id === 'all' && (
+                        {filter.id === 'all' && filter.count !== undefined && (
                             <span className="filter-count"> ({filter.count})</span>
                         )}
                     </button>
@@ -179,7 +185,6 @@ function MyFanfics() {
                     <div className="favorites-list">
                         {fanfics.map(fanfic => (
                             <div key={fanfic.id} className="fanfic-card-wrapper">
-                                {/* Бейджи для статуса */}
                                 <div className="fanfic-badges">
                                     {fanfic.is_early_access && fanfic.early_access_until && new Date(fanfic.early_access_until) > new Date() && (
                                         <span className="premium-badge early-access-badge" title={`Ранний доступ до ${new Date(fanfic.early_access_until).toLocaleDateString()}`}>
@@ -193,7 +198,6 @@ function MyFanfics() {
                                     )}
                                 </div>
                                 
-                                {/* Причина отклонения */}
                                 {fanfic.rejection_reason && (
                                     <div className="rejection-reason">
                                         <strong>Причина отклонения:</strong> {fanfic.rejection_reason}
@@ -218,7 +222,6 @@ function MyFanfics() {
                                     views={fanfic.views}
                                     showViews={true}
                                     onClick={() => {
-                                        // Только для опубликованных разрешаем клик
                                         if (fanfic.customStatus === 'approved' || fanfic.customStatus === 'published') {
                                             handleFanficClick(fanfic);
                                         }
@@ -233,17 +236,44 @@ function MyFanfics() {
                             <button 
                                 className="pagination-btn"
                                 disabled={pagination.current_page === 1}
-                                onClick={() => loadFanfics(activeFilter, pagination.current_page - 1)}
+                                onClick={() => handlePageChange(pagination.current_page - 1)}
                             >
                                 ← Назад
                             </button>
+                            <div className="pagination-pages">
+                                {[...Array(Math.min(5, pagination.last_page))].map((_, i) => {
+                                    let pageNum;
+                                    if (pagination.last_page <= 5) {
+                                        pageNum = i + 1;
+                                    } else if (pagination.current_page <= 3) {
+                                        pageNum = i + 1;
+                                    } else if (pagination.current_page >= pagination.last_page - 2) {
+                                        pageNum = pagination.last_page - 4 + i;
+                                    } else {
+                                        pageNum = pagination.current_page - 2 + i;
+                                    }
+                                    
+                                    if (pageNum >= 1 && pageNum <= pagination.last_page) {
+                                        return (
+                                            <button
+                                                key={pageNum}
+                                                className={`pagination-number ${pagination.current_page === pageNum ? 'active' : ''}`}
+                                                onClick={() => handlePageChange(pageNum)}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
                             <span className="pagination-info">
                                 Страница {pagination.current_page} из {pagination.last_page}
                             </span>
                             <button 
                                 className="pagination-btn"
                                 disabled={pagination.current_page === pagination.last_page}
-                                onClick={() => loadFanfics(activeFilter, pagination.current_page + 1)}
+                                onClick={() => handlePageChange(pagination.current_page + 1)}
                             >
                                 Вперед →
                             </button>

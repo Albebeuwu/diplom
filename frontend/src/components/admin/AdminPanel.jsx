@@ -5,6 +5,8 @@ import { fanficService } from '../../services/fanficService';
 
 import './AdminPanel.css';
 import ReportsManagement from './ReportsManagement/ReportsManagement';
+import AllFanficsTable from './AllFanficsTable/AllFanficsTable';
+import TagManager from './TagManager/TagManager';
 
 function AdminPanel() {
     const { isAdmin, logout } = useAuth();
@@ -198,6 +200,18 @@ function AdminPanel() {
                 >
                     Жалобы
                 </button>
+                <button
+                    className={`tab-btn ${activeTab === 'all-fanfics' ? 'active' : ''}`}
+                    onClick={() => handleTabChange('all-fanfics')}
+                >
+                    Все фанфики
+                </button>
+                <button
+                    className={`tab-btn ${activeTab === 'tags' ? 'active' : ''}`}
+                    onClick={() => handleTabChange('tags')}
+                >
+                    Теги
+                </button>
                 <button 
                     className={`tab-btn ${activeTab === 'stats' ? 'active' : ''}`}
                     onClick={() => handleTabChange('stats')}
@@ -351,6 +365,8 @@ function AdminPanel() {
             {activeTab === 'reports' && (
                 <ReportsManagement />
             )}
+            {activeTab === 'all-fanfics' && <AllFanficsTable />}
+            {activeTab === 'tags' && <TagManager />}
 
             {activeTab === 'stats' && (
                 <div className="stats-container">

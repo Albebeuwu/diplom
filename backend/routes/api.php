@@ -220,6 +220,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{id}/approve', [AdminReportController::class, 'approve']);
             Route::post('/{id}/reject', [AdminReportController::class, 'reject']);
         });
+
+        Route::prefix('tags')->group(function () {
+            Route::get('/', [AdminFanficController::class, 'getTags']);
+            Route::post('/', [AdminFanficController::class, 'createTag']);
+            Route::put('/{id}', [AdminFanficController::class, 'updateTag']);
+            Route::delete('/{id}', [AdminFanficController::class, 'deleteTag']);
+        });
     });
 });
 

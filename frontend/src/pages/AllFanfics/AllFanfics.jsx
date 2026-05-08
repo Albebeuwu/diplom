@@ -1,10 +1,9 @@
-// AllFanfics.js - исправленная версия
+// AllFanfics.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { fanficService } from '../../services/fanficService';
 import { useSearchParams } from 'react-router-dom';
 import FanfikCards from '../../components/cards/FanfikCards/FanfikCards';
 import FiltersPanel from './components/FiltersPanel';
-import Pagination from './components/Pagination';
 import './AllFanfics.css';
 
 function AllFanfics() {
@@ -17,10 +16,9 @@ function AllFanfics() {
         currentPage: 1,
         totalPages: 1,
         totalItems: 0,
-        perPage: 16
+        perPage: 8
     });
 
-    // Состояние для фильтров
     const [filters, setFilters] = useState({
         search: '',
         tags: [],
@@ -44,13 +42,11 @@ function AllFanfics() {
         }));
     }, [searchParams]);
     
-    // Загрузка фанфиков с фильтрами и пагинацией
     const loadFanfics = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
             
-            // Подготавливаем параметры запроса
             const params = {
                 page: pagination.currentPage,
                 per_page: pagination.perPage,
@@ -64,7 +60,6 @@ function AllFanfics() {
 
             // Удаляем пустые параметры
             Object.keys(params).forEach(key => {
-                if (key === 'search') delete params[key];
                 if (params[key] === '' || params[key] === undefined || 
                     (Array.isArray(params[key]) && params[key].length === 0)) {
                     delete params[key];
@@ -76,24 +71,24 @@ function AllFanfics() {
             let likedIds = [];
             try {
                 const likedResponse = await fanficService.getLikedFanfics();
-               likedIds = (likedResponse.data || likedResponse || []).map(f => f.id);
-             } catch (e) {
-               console.warn('Не удалось загрузить лайкнутые фанфики');
+                likedIds = (likedResponse.data || likedResponse || []).map(f => f.id);
+            } catch (e) {
+                console.warn('Не удалось загрузить лайкнутые фанфики');
             }
             
             // Обрабатываем ответ от сервера
-            const fanficsData = response.data || response.fanfics || response;
-            const paginationData = response.pagination || response.meta || {
-                current_page: pagination.currentPage,
-                last_page: 1,
-                total: 0
+            const fanficsData = response.data || [];
+            const paginationData = {
+                current_page: response.current_page || response.currentPage || 1,
+                last_page: response.last_page || response.totalPages || 1,
+                total: response.total || 0
             };
 
             const formattedFanfics = fanficsData.map(fanfic => ({
                 id: fanfic.id,
                 title: fanfic.title,
                 author: fanfic.user?.name || 'Аноним',
-                authorId: fanfic.user?.id, // ДОБАВЛЕНО: ID автора
+                authorId: fanfic.user?.id,
                 fandom: fanfic.fandom || 'Не указан',
                 description: fanfic.description || 'Без описания',
                 rating: fanfic.rating?.code || 'Не указан',
@@ -107,19 +102,18 @@ function AllFanfics() {
                 cover_image: fanfic.cover_image
                     ? `http://45.147.179.241/storage/${fanfic.cover_image}`
                     : null,
-                // ДОБАВЛЕНО: поля для эксклюзивного контента
                 is_early_access: fanfic.is_early_access || false,
                 early_access_until: fanfic.early_access_until,
                 is_exclusive: fanfic.is_exclusive || false
             }));
 
             setFanfics(formattedFanfics);
-            setPagination(prev => ({
-                ...prev,
-                totalPages: paginationData.last_page || 1,
-                totalItems: paginationData.total || 0,
-                currentPage: paginationData.current_page || prev.currentPage
-            }));
+            setPagination({
+                currentPage: paginationData.current_page,
+                totalPages: paginationData.last_page,
+                totalItems: paginationData.total,
+                perPage: pagination.perPage
+            });
 
         } catch (error) {
             console.error('Ошибка загрузки фанфиков:', error);
@@ -130,18 +124,15 @@ function AllFanfics() {
         }
     }, [pagination.currentPage, pagination.perPage, filters]);
 
-    // Загрузка при монтировании и изменении фильтров/страницы
     useEffect(() => {
         loadFanfics();
     }, [loadFanfics]);
 
-    // Обработчик изменения фильтров
     const handleFilterChange = (newFilters) => {
         setFilters(prev => ({ ...prev, ...newFilters }));
-        setPagination(prev => ({ ...prev, currentPage: 1 })); // Сбрасываем на первую страницу
+        setPagination(prev => ({ ...prev, currentPage: 1 }));
     };
 
-    // Обработчик сброса фильтров
     const handleResetFilters = () => {
         setFilters({
             search: '',
@@ -154,18 +145,15 @@ function AllFanfics() {
         setPagination(prev => ({ ...prev, currentPage: 1 }));
     };
 
-    // Обработчик изменения страницы
     const handlePageChange = (page) => {
         setPagination(prev => ({ ...prev, currentPage: page }));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Обработчик клика по карточке
     const handleFanficClick = (card) => {
         window.location.href = `/fanfic/${card.id}`;
     };
 
-    // Обработчик лайка
     const handleLike = async (fanficId) => {
         try {
             await fanficService.likeFanfic(fanficId);
@@ -177,7 +165,6 @@ function AllFanfics() {
         }
     };
 
-    // Обработчик анлайка
     const handleUnlike = async (fanficId) => {
         try {
             await fanficService.unlikeFanfic(fanficId);
@@ -189,10 +176,26 @@ function AllFanfics() {
         }
     };
 
+    // Функция для генерации номеров страниц
+    const getPageNumbers = () => {
+        const pages = [];
+        const maxVisible = 5;
+        let startPage = Math.max(1, pagination.currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(pagination.totalPages, startPage + maxVisible - 1);
+        
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+        return pages;
+    };
+
     return (
         <div className="all-fanfics-page">
             <div className="all-fanfics-container">
-                {/* Боковая панель с фильтрами */}
                 <div className="filters-sidebar">
                     <FiltersPanel 
                         filters={filters}
@@ -201,10 +204,12 @@ function AllFanfics() {
                     />
                 </div>
 
-                {/* Основной контент */}
                 <div className="fanfics-content">
                     <div className="fanfics-header">
                         <h1>Все фанфики</h1>
+                        {pagination.totalItems > 0 && (
+                            <span className="total-count">Найдено: {pagination.totalItems}</span>
+                        )}
                     </div>
 
                     {error && (
@@ -227,7 +232,6 @@ function AllFanfics() {
                             <div className="fanfics-grid">
                                 {fanfics.map(fanfic => (
                                     <div key={fanfic.id} className="fanfic-card-wrapper">
-                                        {/* ДОБАВЛЕНО: Бейджи для премиум контента */}
                                         <div className="fanfic-badges">
                                             {fanfic.is_exclusive && (
                                                 <span className="premium-badge exclusive-badge" title="Эксклюзивный контент">
@@ -236,11 +240,10 @@ function AllFanfics() {
                                             )}
                                         </div>
                                         <FanfikCards
-                                            key={fanfic.id}
                                             imageUrl={fanfic.cover_image}
                                             title={fanfic.title}
                                             author={fanfic.author}
-                                            authorId={fanfic.authorId} // ДОБАВЛЕНО: передача authorId
+                                            authorId={fanfic.authorId}
                                             fandom={fanfic.fandom}
                                             description={fanfic.description}
                                             rating={fanfic.rating}
@@ -262,11 +265,34 @@ function AllFanfics() {
                             </div>
 
                             {pagination.totalPages > 1 && (
-                                <Pagination
-                                    currentPage={pagination.currentPage}
-                                    totalPages={pagination.totalPages}
-                                    onPageChange={handlePageChange}
-                                />
+                                <div className="pagination">
+                                    <button 
+                                        className="pagination-btn"
+                                        disabled={pagination.currentPage === 1}
+                                        onClick={() => handlePageChange(pagination.currentPage - 1)}
+                                    >
+                                        ← Назад
+                                    </button>
+                                    
+                                    <div className="pagination-pages">
+                                        {getPageNumbers().map(pageNum => (
+                                            <button
+                                                key={pageNum}
+                                                className={`pagination-number ${pagination.currentPage === pageNum ? 'active' : ''}`}
+                                                onClick={() => handlePageChange(pageNum)}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button 
+                                        className="pagination-btn"
+                                        disabled={pagination.currentPage === pagination.totalPages}
+                                        onClick={() => handlePageChange(pagination.currentPage + 1)}
+                                    >
+                                        Вперед →
+                                    </button>
+                                </div>
                             )}
                         </>
                     )}

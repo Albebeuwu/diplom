@@ -1,0 +1,402 @@
+.tag-manager {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: rgba(39, 39, 42, 0.8);
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+}
+
+.tag-manager h3 {
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem;
+    color: #fff;
+    font-family: "Unbounded", sans-serif;
+    padding-bottom: 0;
+    border-bottom: none;
+    font-weight: 600;
+}
+
+/* Сообщение об ошибке */
+.tag-manager .error {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    animation: shake 0.3s ease-in-out;
+    font-size: 14px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Форма */
+.tag-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 1.5rem;
+    background-color: #27272a;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+}
+
+.tag-form input,
+.tag-form textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    color: #fff;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.tag-form input:focus,
+.tag-form textarea:focus {
+    outline: none;
+    border-color: #450a0a;
+    box-shadow: 0 0 0 2px rgba(69, 10, 10, 0.2);
+}
+
+.tag-form textarea {
+    grid-column: 1 / -1;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.tag-form button[type="submit"] {
+    grid-column: 1 / -1;
+    padding: 0.75rem 1.5rem;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tag-form button[type="submit"]:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.tag-form button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tag-form button[type="button"] {
+    padding: 0.5rem 1rem;
+    background: #3f3f46;
+    color: #a1a1aa;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tag-form button[type="button"]:hover {
+    background: #52525b;
+    color: #fff;
+}
+
+/* Фильтры */
+.tag-filters {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0 20px;
+    padding: 1rem;
+    background-color: #27272a;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+    flex-wrap: wrap;
+}
+
+.tag-filters input,
+.tag-filters select {
+    padding: 0.5rem;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    color: #fff;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.tag-filters input:focus,
+.tag-filters select:focus {
+    outline: none;
+    border-color: #450a0a;
+    box-shadow: 0 0 0 2px rgba(69, 10, 10, 0.2);
+}
+
+.tag-filters button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.tag-filters button:first-of-type {
+    background: #dc2626;
+    color: white;
+}
+
+.tag-filters button:first-of-type:hover {
+    background: #b91c1c;
+}
+
+.tag-filters button:last-of-type {
+    background: #3f3f46;
+    color: #a1a1aa;
+}
+
+.tag-filters button:last-of-type:hover {
+    background: #52525b;
+    color: #fff;
+}
+
+/* Таблица тегов */
+.tags-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #18181B;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.tags-table th {
+    background-color: #3f3f46;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+}
+
+.tags-table tbody tr {
+    border-bottom: 1px solid #3f3f46;
+    transition: background-color 0.2s;
+}
+
+.tags-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.tags-table tbody tr:hover {
+    background-color: #2a2a2d;
+}
+
+.tags-table tbody tr.editing {
+    background-color: rgba(220, 38, 38, 0.05);
+    border-left: 3px solid #dc2626;
+}
+
+.tags-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #3f3f46;
+    color: #d4d4d8;
+}
+
+.tags-table td:first-child {
+    color: #a1a1aa;
+    font-family: monospace;
+    width: 60px;
+}
+
+.tag-name {
+    color: #fff;
+    font-weight: 500;
+}
+
+.tag-slug {
+    font-family: monospace;
+    color: #a1a1aa;
+    font-size: 13px;
+}
+
+/* Бейдж категории */
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: #3f3f46;
+    color: #a1a1aa;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+
+/* Счётчик использования */
+.usage-count {
+    text-align: center;
+}
+
+.usage-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.usage-badge.used {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.usage-badge.unused {
+    background-color: rgba(161, 161, 170, 0.1);
+    color: #a1a1aa;
+}
+
+/* Кнопки действий */
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: transparent;
+    transition: background-color 0.2s;
+}
+
+.action-btn.edit {
+    color: #3b82f6;
+}
+
+.action-btn.edit:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.action-btn.delete {
+    background-color: #dc2626;
+    color: white;
+}
+
+.action-btn.delete:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 1rem;
+    background-color: #27272a;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: white;
+}
+
+.page-btn.active {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: white;
+    font-weight: 600;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    margin-left: 12px;
+    color: #a1a1aa;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Адаптив для пагинации */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 4px;
+    }
+    
+    .page-btn {
+        min-width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+    
+    .page-info {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        margin-top: 8px;
+    }
+    
+    .tags-table th:nth-child(3),
+    .tags-table td:nth-child(3),
+    .tags-table th:nth-child(4) {
+        display: none;
+    }
+}
+
+/* Загрузка */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #a1a1aa;
+}
+
+/* Пустое состояние */
+.tags-table tbody:empty {
+    display: none;
+}
+
+.tags-table + .pagination:empty {
+    display: none;
+}
