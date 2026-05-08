@@ -47,7 +47,11 @@ function AllFanficsTable() {
             // Убираем пустые значения
             Object.keys(params).forEach(key => {
                 if (!params[key] && params[key] !== 0) delete params[key];
+                // Убираем пустые массивы
+                if (Array.isArray(params[key]) && params[key].length === 0) delete params[key];
             });
+            
+            console.log('Отправка параметров:', params); // ДОБАВЬТЕ ЭТО
             
             const response = await fanficService.admin.getAllFanfics(page, 20, params);
             setFanfics(response.data);
@@ -58,6 +62,7 @@ function AllFanficsTable() {
             });
         } catch (err) {
             console.error('Ошибка загрузки фанфиков:', err);
+            console.error('Ответ сервера:', err.response?.data); // ДОБАВЬТЕ ЭТО
         } finally {
             setLoading(false);
         }

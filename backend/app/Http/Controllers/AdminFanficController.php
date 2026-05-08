@@ -34,11 +34,16 @@ class AdminFanficController extends Controller
             $query->where('rating_id', $request->rating_id);
         }
         
-        // Фильтр по тегам
+        // Фильтр по тегам - ИСПРАВЛЕНО!
         if ($request->has('tags') && is_array($request->tags)) {
-            $query->whereHas('tags', function($q) use ($request) {
-                $q->whereIn('id', $request->tags);
-            });
+            // Убираем пустые значения и преобразуем в целые числа
+            $tagIds = array_filter(array_map('intval', $request->tags));
+            
+            if (!empty($tagIds)) {
+                $query->whereHas('tags', function($q) use ($tagIds) {
+                    $q->whereIn('fanfic_tags.id', $tagIds); // Явно указываем таблицу
+                });
+            }
         }
         
         // Сортировка
