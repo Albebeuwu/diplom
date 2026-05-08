@@ -1,0 +1,279 @@
+.all-fanfics-table {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: rgba(39, 39, 42, 0.8);
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+}
+
+/* Панель фильтров */
+.filters-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 1rem;
+    background-color: #27272a;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+    align-items: center;
+}
+
+.filters-panel input,
+.filters-panel select {
+    padding: 0.5rem;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    color: #fff;
+    font-size: 14px;
+    min-width: 150px;
+    transition: border-color 0.2s;
+}
+
+.filters-panel input:focus,
+.filters-panel select:focus {
+    outline: none;
+    border-color: #450a0a;
+    box-shadow: 0 0 0 2px rgba(69, 10, 10, 0.2);
+}
+
+.filters-panel select[multiple] {
+    min-height: 80px;
+    min-width: 200px;
+}
+
+.filters-panel button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.filters-panel button:first-of-type {
+    background: #dc2626;
+    color: white;
+}
+
+.filters-panel button:first-of-type:hover {
+    background: #b91c1c;
+}
+
+.filters-panel button:last-of-type {
+    background: #3f3f46;
+    color: #a1a1aa;
+}
+
+.filters-panel button:last-of-type:hover {
+    background: #52525b;
+    color: #fff;
+}
+
+/* Таблица */
+.fanfics-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #18181B;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fanfics-table th {
+    background-color: #3f3f46;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+    font-size: 0.875rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.fanfics-table th:hover {
+    background-color: #52525b;
+}
+
+.fanfics-table th::after {
+    content: ' ⇅';
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+.fanfics-table tbody tr {
+    border-bottom: 1px solid #3f3f46;
+    transition: background-color 0.2s;
+}
+
+.fanfics-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.fanfics-table tbody tr:hover {
+    background-color: #2a2a2d;
+}
+
+.fanfics-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #3f3f46;
+    color: #d4d4d8;
+    font-size: 0.875rem;
+}
+
+.fanfics-table td:first-child {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Бейджи статусов */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-badge.draft {
+    background-color: rgba(161, 161, 170, 0.1);
+    color: #a1a1aa;
+    border: 1px solid rgba(161, 161, 170, 0.3);
+}
+
+.status-badge.pending {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.status-badge.approved,
+.status-badge.published {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.rejected {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* Кнопки действий */
+.fanfics-table td:last-child {
+    display: flex;
+    gap: 1rem;
+}
+
+.fanfics-table td a,
+.fanfics-table td button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.fanfics-table td a {
+    background-color: #3f3f46;
+    color: #fff;
+}
+
+.fanfics-table td a:hover {
+    background-color: #52525b;
+}
+
+.delete-btn {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 1rem;
+}
+
+.pagination button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    color: #a1a1aa;
+    font-size: 0.875rem;
+}
+
+/* Загрузка */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #a1a1aa;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+    .filters-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filters-panel input,
+    .filters-panel select {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .fanfics-table {
+        font-size: 13px;
+    }
+    
+    .fanfics-table th,
+    .fanfics-table td {
+        padding: 0.75rem;
+    }
+    
+    .fanfics-table th:nth-child(3),
+    .fanfics-table td:nth-child(3),
+    .fanfics-table th:nth-child(5) {
+        display: none;
+    }
+}

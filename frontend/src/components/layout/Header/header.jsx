@@ -75,9 +75,6 @@ function Header() {
                             className="user-profile"
                             onClick={() => navigate('/profile')}
                         >
-                            <div className="user-profile-avatar">
-                                {user.name.charAt(0).toUpperCase()}
-                            </div>
                             <div className="user-profile-name">{user.name}</div>
                         </button>
                     )}

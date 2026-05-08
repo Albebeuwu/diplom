@@ -180,10 +180,12 @@ class ProfileController extends Controller
 
      
     //Получить лайкнутые фанфики пользователя
-    public function likedFanfics()
+    public function likedFanfics(Request $request)
     {
         $user = Auth::user();
-
+        
+        $perPage = $request->input('per_page', 6);
+        
         $likedFanfics = $user->likedFanfics()
             ->with([
                 'user',        // автор
@@ -191,8 +193,9 @@ class ProfileController extends Controller
                 'rating'       // рейтинг
             ])
             ->withCount('likedByUsers as likes_count')
-            ->get();
-
+            ->orderBy('fanfic_likes.created_at', 'desc')
+            ->paginate($perPage);
+        
         return response()->json($likedFanfics);
     }
 }

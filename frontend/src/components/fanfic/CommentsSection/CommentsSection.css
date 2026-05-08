@@ -1,4 +1,6 @@
 .comments-section {
+    width: 70%;
+    margin: 0 auto;
     margin-top: 3rem;
     padding: 2rem;
     background-color: #27272a;
@@ -155,4 +157,18 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
+}
+@media(max-width: 1000px){
+    .comments-section{
+        width: 90%;
+    }
+}
+@media (max-width: 768px){
+    .form-footer{
+        flex-direction: column;
+
+    }
+    .comments-section{
+        width: 80%;
+    }
 }

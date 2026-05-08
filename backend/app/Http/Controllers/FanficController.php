@@ -277,6 +277,7 @@ class FanficController extends Controller
     public function myFanfics(Request $request)
     {
         $status = $request->query('status');
+        $perPage = (int) $request->query('per_page', 6);
         
         $query = Fanfic::with(['rating', 'tags'])
             ->where('user_id', Auth::id())
@@ -286,7 +287,7 @@ class FanficController extends Controller
             $query->where('status', $status);
         }
 
-        $fanfics = $query->paginate(10);
+        $fanfics = $query->paginate($perPage);
 
         return response()->json($fanfics);
     }
@@ -484,18 +485,35 @@ class FanficController extends Controller
     // Удалить фанфик
     public function destroy($id)
     {
-        $fanfic = Fanfic::where('user_id', Auth::id())
-            ->whereIn('status', ['draft', 'rejected'])
-            ->findOrFail($id);
-
+        $fanfic = Fanfic::findOrFail($id);
+        $user = Auth::user();
+        
+        // Проверка прав: автор или админ
+        $isOwner = $fanfic->user_id === $user->id;
+        $isAdmin = $user->role === 'admin';
+        
+        if (!$isOwner && !$isAdmin) {
+            return response()->json(['error' => 'Нет прав для удаления'], 403);
+        }
+        
         // Удаляем обложку
         if ($fanfic->cover_image) {
             Storage::disk('public')->delete($fanfic->cover_image);
         }
-
+        
+        // Удаляем файл контента
+        if ($fanfic->file_path) {
+            try {
+                $fileProcessor = app(\App\Services\FileProcessor::class);
+                $fileProcessor->deleteFileFromCloud($fanfic->file_path);
+            } catch (\Exception $e) {
+                \Log::warning("Не удалось удалить файл: " . $e->getMessage());
+            }
+        }
+        
         $fanfic->delete();
-
-        return response()->json(['message' => 'Фанфик удален']);
+        
+        return response()->json(['message' => 'Фанфик удалён']);
     }
 
 

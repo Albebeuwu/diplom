@@ -139,7 +139,7 @@ function FanficReader() {
             const API_URL = process.env.REACT_APP_API_URL || 'http://45.147.179.241/api';
             
             // Загружаем историю с сервера
-            const response = await fetch(`${API_URL}/reading-history`, {
+            const response = await fetch(`${API_URL}/api/reading-history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json'
@@ -587,6 +587,19 @@ function FanficReader() {
         setTimeout(() => setReportSuccess(false), 3000);
     };
 
+    const handleDeleteFanfic = async () => {
+        if (!window.confirm(`Вы уверены, что хотите удалить фанфик "${fanfic.title}"? Это действие нельзя отменить.`)) {
+            return;
+        }
+        try {
+            await fanficService.deleteFanfic(fanfic.id);
+            alert('Фанфик успешно удалён');
+            navigate('/'); // или на страницу профиля автора
+        } catch (err) {
+            alert('Ошибка удаления: ' + (err.response?.data?.message || err.message));
+        }
+    };
+
     if (loading) {
         return (
             <div className="fanfic-reader loading-state">
@@ -701,7 +714,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.file_path}`} 
+                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.file_path}`}  
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -735,6 +748,17 @@ function FanficReader() {
                             title="Редактировать"
                         >
                             ✏️ Редактировать
+                        </button>
+                    )}
+
+                    {(fanfic.user_id === user?.id || user?.role === 'admin') && (
+                        <button
+                            className="control-btn delete"
+                            onClick={() => handleDeleteFanfic()}
+                            title="Удалить фанфик"
+                            style={{ color: '#ef4444' }}
+                        >
+                            🗑️ Удалить
                         </button>
                     )}
                 </div>

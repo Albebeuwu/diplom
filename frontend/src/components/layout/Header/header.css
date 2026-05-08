@@ -60,7 +60,7 @@
     border-radius: 36px;
     width: 272px;
     transition: all 0.3s ease; 
-    justify-content: space-between;
+    justify-content: center;
 }
 .user-profile-name {
     font-size: 1.7rem;
