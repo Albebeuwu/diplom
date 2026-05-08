@@ -15,6 +15,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\PaidSubscriptionController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\AdminTagController;
 
 // =======================
 // Публичные маршруты
@@ -185,7 +186,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // -----------------------
     // Админские маршруты
     // -----------------------
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware('admin')->group(function () {
 
         // Существующие админские маршруты
         Route::get('/users', [AdminController::class, 'index']);
@@ -222,10 +223,10 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         Route::prefix('tags')->group(function () {
-            Route::get('/', [AdminFanficController::class, 'getTags']);
-            Route::post('/', [AdminFanficController::class, 'createTag']);
-            Route::put('/{id}', [AdminFanficController::class, 'updateTag']);
-            Route::delete('/{id}', [AdminFanficController::class, 'deleteTag']);
+            Route::get('/', [AdminTagController::class, 'index']);
+            Route::post('/', [AdminTagController::class, 'store']);
+            Route::put('/{id}', [AdminTagController::class, 'update']);
+            Route::delete('/{id}', [AdminTagController::class, 'destroy']);
         });
     });
 });

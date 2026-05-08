@@ -80,12 +80,6 @@ class AdminFanficController extends Controller
         return response()->json(['message' => 'Фанфик успешно удалён']);
     }
 
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-        $this->middleware('admin'); 
-    }
-
     // Получить все фанфики на модерации
     public function pendingFanfics(Request $request)
     {
@@ -162,83 +156,4 @@ class AdminFanficController extends Controller
         return response()->json($stats);
     }
 
-    // Получить все теги 
-    public function getTags(Request $request)
-    {
-        $query = FanficTag::orderBy('name', 'asc');
-        
-        // Поиск по названию
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-        
-        // Фильтр по категории
-        if ($request->filled('category')) {
-            $query->where('category', $request->category);
-        }
-        
-        // Добавляем подсчёт использования тегов
-        $tags = $query->withCount('fanfics')->paginate(
-            $request->input('per_page', 20)
-        );
-        
-        return response()->json($tags);
-    }
-
-    // Создать новый тег
-    public function createTag(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:100|unique:fanfic_tags,name',
-            'slug' => 'nullable|string|max:100|unique:fanfic_tags,slug',
-            'category' => 'nullable|string|max:50',
-            'description' => 'nullable|string|max:500'
-        ]);
-        
-        $tag = FanficTag::create([
-            'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
-            'category' => $request->category,
-            'description' => $request->description
-        ]);
-        
-        return response()->json(['message' => 'Тег создан', 'tag' => $tag], 201);
-    }
-
-    // Обновить тег
-    public function updateTag(Request $request, $id)
-    {
-        $tag = FanficTag::findOrFail($id);
-        
-        $request->validate([
-            'name' => 'required|string|max:100|unique:fanfic_tags,name,' . $id,
-            'slug' => 'nullable|string|max:100|unique:fanfic_tags,slug,' . $id,
-            'category' => 'nullable|string|max:50',
-            'description' => 'nullable|string|max:500'
-        ]);
-        
-        $tag->update([
-            'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
-            'category' => $request->category,
-            'description' => $request->description
-        ]);
-        
-        return response()->json(['message' => 'Тег обновлён', 'tag' => $tag]);
-    }
-
-    // Удалить тег (только если не используется)
-    public function deleteTag($id)
-    {
-        $tag = FanficTag::findOrFail($id);
-        
-        if ($tag->fanfics()->count() > 0) {
-            return response()->json([
-                'error' => 'Нельзя удалить тег, который используется в фанфиках'
-            ], 400);
-        }
-        
-        $tag->delete();
-        return response()->json(['message' => 'Тег удалён']);
-    }
 }
