@@ -18,7 +18,12 @@ export const AuthProvider = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        checkAuth();
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/login' && currentPath !== '/register') {
+            checkAuth();
+        } else {
+            setLoading(false);
+        }
     }, []);
 
     const checkAuth = async () => {
