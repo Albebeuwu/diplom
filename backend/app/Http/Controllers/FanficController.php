@@ -17,6 +17,39 @@ use App\Services\FileProcessor;
 
 class FanficController extends Controller
 {
+    private function splitContentIntoChapters($content, $fileType)
+    {
+        // 🔥 Маркер должен точно совпадать с тем, что используется в update():
+        // "\n\n--- НОВАЯ ЧАСТЬ ---\n\n"
+        $chapters = preg_split('/\n\s*---\s*НОВАЯ ЧАСТЬ\s*---\s*\n/i', $content);
+        
+        // Убираем пустые элементы и триммим
+        $chapters = array_values(array_filter(array_map('trim', $chapters)));
+        
+        // Если ничего не разбилось — возвращаем как одну главу
+        if (empty($chapters)) {
+            $chapters = [$content];
+        }
+        
+        // Форматируем каждую главу
+        $formattedChapters = [];
+        foreach ($chapters as $index => $chapter) {
+            if ($fileType === 'md') {
+                $parsedown = new \Parsedown();
+                $chapter = $parsedown->text($chapter);
+            } else {
+                $chapter = nl2br(htmlspecialchars($chapter));
+            }
+            $formattedChapters[] = [
+                'index' => $index + 1,
+                'content' => $chapter,
+                'word_count' => str_word_count(strip_tags($chapter))
+            ];
+        }
+        
+        return $formattedChapters;
+    }
+
     private function applyEarlyAccessFilter($query)
     {
         $user = Auth::user();
@@ -737,43 +770,31 @@ class FanficController extends Controller
             ], 403);
         }
 
-        // Возвращаем контент
+        // 🔥 Получаем контент (ОДИН РАЗ)
+        $content = '';
+        
         if ($fanfic->extracted_text) {
             $content = $fanfic->extracted_text;
-            
-            if ($fanfic->file_type === 'md') {
-                $parsedown = new \Parsedown();
-                $content = $parsedown->text($content);
-            } else {
-                $content = nl2br(htmlspecialchars($content));
-            }
-            
-            return response()->json([
-                'content' => $content,
-                'file_type' => $fanfic->file_type,
-                'file_url' => $fanfic->file_url,
-                'requires_download' => false
-            ]);
-        }
-
-        // Если extracted_text нет — пробуем из файла
-        if ($fanfic->file_path) {
+        } elseif ($fanfic->file_path) {
             try {
                 $fileProcessor = app(\App\Services\FileProcessor::class);
                 $content = $fileProcessor->getFileContentFromCloud($fanfic->file_path, $fanfic->file_type);
-                
-                return response()->json([
-                    'content' => $content,
-                    'file_type' => $fanfic->file_type,
-                    'file_url' => Storage::url($fanfic->file_path),
-                    'requires_download' => in_array($fanfic->file_type, ['pdf', 'docx', 'doc'])
-                ]);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Ошибка чтения файла'], 500);
             }
         }
 
-        return response()->json(['content' => '<p>Контент не найден</p>'], 200);
+        // 🔥 Разбиваем на главы (используем тот же маркер, что и в update())
+        $chapters = $this->splitContentIntoChapters($content, $fanfic->file_type);
+
+        return response()->json([
+            'chapters' => $chapters,
+            'total_chapters' => count($chapters),
+            'file_type' => $fanfic->file_type,
+            'file_url' => $fanfic->file_url,
+            'requires_download' => in_array($fanfic->file_type, ['pdf', 'docx', 'doc']),
+            'total_words' => $fanfic->words_count
+        ]);
     }
     
     public function myFanficsByStatus($status)
