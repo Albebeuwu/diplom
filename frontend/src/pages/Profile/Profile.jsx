@@ -26,10 +26,10 @@ function Profile() {
 
     // Перенаправление если не авторизован
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!loading && !isAuthenticated) { 
             navigate('/login');
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, loading, navigate]);
 
     // Адаптивное поведение боковой панели
     useEffect(() => {

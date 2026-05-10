@@ -21,7 +21,7 @@ use App\Http\Controllers\AdminTagController;
 // Публичные маршруты
 // =======================
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/auth/resend-registration-code', [AuthController::class, 'resendRegistrationCode']);
 Route::post('/send-registration-code', [AuthController::class, 'sendRegistrationCode']);
 Route::post('/verify-and-register', [AuthController::class, 'verifyAndRegister']);
