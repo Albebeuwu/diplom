@@ -50,8 +50,13 @@ function FanficReader() {
     // Проверка на подписку Hype или выше
     const hasHypeOrHigher = hasSubscription && (planId === 'hype' || planId === 'chitun');
 
+    const [chapters, setChapters] = useState([]);
+    const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+    const [totalChapters, setTotalChapters] = useState(0);
+
     // Функция сохранения прогресса 
     const saveReadingProgress = useCallback(() => {
+        
         // Ищем скроллящийся контейнер
         const scrollContainer = contentContainerRef.current;
         
@@ -73,6 +78,7 @@ function FanficReader() {
             maxScroll: maxScroll,
             hasScrollbar: totalHeight > clientHeight
         });
+        
         
         // Если контент не скроллится, возможно скролл на body или html
         let actualScrollPosition = scrollPosition;
@@ -107,9 +113,9 @@ function FanficReader() {
         
         console.log(`💾 Сохранение прогресса: позиция=${actualScrollPosition}, процент=${progressPercentage}%`);
         
-        saveProgress(parseInt(id), actualScrollPosition, progressPercentage);
+        saveProgress(parseInt(id), actualScrollPosition, progressPercentage, currentChapterIndex);
         
-    }, [id, saveProgress]);
+    }, [id, saveProgress, currentChapterIndex]);
 
     // Обработчик скролла 
     const handleScroll = useCallback(() => {
@@ -167,6 +173,12 @@ function FanficReader() {
             console.error('Ошибка при восстановлении позиции:', error);
         }
     }, [id, isAuthenticated]);
+
+    const updateChapterInUrl = (chapterNumber) => {
+        const params = new URLSearchParams(location.search);
+        params.set('chapter', chapterNumber.toString());
+        navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+    };
 
     // Проверяем URL параметр для скролла
     useEffect(() => {
@@ -319,10 +331,24 @@ function FanficReader() {
 
             // Загружаем контент
             const contentData = await fanficService.getPublishedFanficContent(id);
-            if (contentData?.content) {
-                setContent(contentData.content);
+            if (contentData?.chapters && contentData.chapters.length > 0) {
+                setChapters(contentData.chapters);
+                setTotalChapters(contentData.total_chapters);
+                
+                // Проверяем, есть ли параметр главы в URL
+                const params = new URLSearchParams(location.search);
+                const chapterParam = params.get('chapter');
+                if (chapterParam && !isNaN(chapterParam)) {
+                    const targetChapter = Math.max(0, Math.min(parseInt(chapterParam) - 1, contentData.chapters.length - 1));
+                    setCurrentChapterIndex(targetChapter);
+                }
+            } else if (contentData?.content) {
+                // Fallback для старого формата — одна глава
+                setChapters([{ index: 1, content: contentData.content, word_count: 0 }]);
+                setTotalChapters(1);
             } else if (fanficData.extracted_text) {
-                setContent(fanficData.extracted_text); // fallback
+                setChapters([{ index: 1, content: fanficData.extracted_text, word_count: 0 }]);
+                setTotalChapters(1);
             }
 
         } catch (err) {
@@ -349,10 +375,10 @@ function FanficReader() {
     
     // Сохраняем прогресс при изменении контента (после загрузки)
     useEffect(() => {
-        if (!loading && content && contentContainerRef.current) {
-            console.log('📄 Контент загружен, ждем рендера...');
+        // 🔥 Ждём, когда загрузятся главы И отрендерится контейнер
+        if (!loading && chapters.length > 0 && contentContainerRef.current) {
+            console.log('📄 Главы загружены, ждем рендера...');
             
-            // Даем время на рендер контента
             const timer = setTimeout(() => {
                 console.log('⏰ Проверяем размеры контейнера после рендера');
                 
@@ -361,14 +387,13 @@ function FanficReader() {
                     console.log('📏 Размеры контейнера:', {
                         scrollHeight: container.scrollHeight,
                         clientHeight: container.clientHeight,
-                        offsetHeight: container.offsetHeight
                     });
                 }
                 
                 // Восстанавливаем позицию
                 restoreScrollPosition();
                 
-                // Сохраняем начальный прогресс (0 или восстановленный)
+                // Сохраняем начальный прогресс
                 if (isAuthenticated) {
                     saveReadingProgress();
                 }
@@ -376,7 +401,7 @@ function FanficReader() {
             
             return () => clearTimeout(timer);
         }
-    }, [loading, content, restoreScrollPosition, saveReadingProgress, isAuthenticated]);
+    }, [loading, chapters, restoreScrollPosition, saveReadingProgress, isAuthenticated]);
 
     // Сохраняем прогресс при уходе со страницы
     useEffect(() => {
@@ -714,7 +739,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241'}/storage/${fanfic.file_path}`}  
+                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.file_path}`} 
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -870,7 +895,7 @@ function FanficReader() {
                     {fanfic.cover_image && (
                         <div className="fanfic-cover">
                             <img 
-                                src={`http://45.147.179.241/storage/${fanfic.cover_image}`} 
+                                src={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.cover_image}`} 
                                 alt={fanfic.title}
                                 onError={(e) => {
                                     e.target.style.display = 'none';
@@ -888,6 +913,7 @@ function FanficReader() {
                 </div>
 
                 {/* Содержание фанфика - ОБЕРНИТЕ В ДИВ С overflow-y: auto */}
+                {chapters.length > 0 && (
                 <div 
                     ref={contentContainerRef}
                     className="content-container-scrollable"
@@ -896,18 +922,81 @@ function FanficReader() {
                         lineHeight: lineHeight,
                         fontFamily: fontFamily,
                         padding: '20px',
-                        minHeight: '200px' 
+                        minHeight: '200px'
                     }}
                 >
+                    {/* Индикатор глав */}
+                    {totalChapters > 1 && (
+                        <div className="chapter-indicator" style={{ 
+                            textAlign: 'center', 
+                            padding: '10px 0',
+                            borderBottom: `1px solid ${theme === 'light' ? '#e5e7eb' : '#374151'}`,
+                            marginBottom: '20px'
+                        }}>
+                            <span style={{ 
+                                background: theme === 'light' ? '#e5e7eb' : '#374151',
+                                padding: '4px 12px',
+                                borderRadius: '20px',
+                                fontSize: '14px'
+                            }}>
+                                Глава {currentChapterIndex + 1} из {totalChapters}
+                            </span>
+                        </div>
+                    )}
+
+                    {/* Контент текущей главы */}
                     <div 
                         className="content-html"
-                        dangerouslySetInnerHTML={{ __html: content }}
-                        style={{
-                            wordWrap: 'break-word',
-                            overflowWrap: 'break-word'
-                        }}
+                        dangerouslySetInnerHTML={{ __html: chapters[currentChapterIndex]?.content || '' }}
+                        style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                     />
+
+                    {/* Навигация по главам */}
+                    {totalChapters > 1 && (
+                        <div className="chapter-navigation" style={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            marginTop: '30px',
+                            paddingTop: '20px',
+                            borderTop: `1px solid ${theme === 'light' ? '#e5e7eb' : '#374151'}`
+                        }}>
+                            <button
+                                className="control-btn"
+                                onClick={() => {
+                                    if (currentChapterIndex > 0) {
+                                        setCurrentChapterIndex(prev => prev - 1);
+                                        if (contentContainerRef.current) {
+                                            contentContainerRef.current.scrollTop = 0;
+                                        }
+                                        updateChapterInUrl(currentChapterIndex);
+                                    }
+                                }}
+                                disabled={currentChapterIndex === 0}
+                                style={{ opacity: currentChapterIndex === 0 ? 0.5 : 1 }}
+                            >
+                                ← Предыдущая глава
+                            </button>
+                            
+                            <button
+                                className="control-btn"
+                                onClick={() => {
+                                    if (currentChapterIndex < totalChapters - 1) {
+                                        setCurrentChapterIndex(prev => prev + 1);
+                                        if (contentContainerRef.current) {
+                                            contentContainerRef.current.scrollTop = 0;
+                                        }
+                                        updateChapterInUrl(currentChapterIndex + 2);
+                                    }
+                                }}
+                                disabled={currentChapterIndex === totalChapters - 1}
+                                style={{ opacity: currentChapterIndex === totalChapters - 1 ? 0.5 : 1 }}
+                            >
+                                Следующая глава →
+                            </button>
+                        </div>
+                    )}
                 </div>
+            )}
 
                 {fanfic.status === 'pending' && fanfic.previously_approved && (
                     <div className="moderation-warning">
