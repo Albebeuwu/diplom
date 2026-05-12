@@ -387,7 +387,7 @@ function Drafts() {
                     </div>
                     
                     {pagination.last_page > 1 && (
-                        <div className="pagination">
+                        <div className="pagination-all-table">
                             <button 
                                 className="pagination-btn"
                                 disabled={pagination.current_page === 1}
