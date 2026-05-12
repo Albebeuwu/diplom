@@ -207,7 +207,7 @@
 }
 
 /* Пагинация */
-.pagination {
+.pagination-all-table {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,7 +216,7 @@
     padding: 1rem;
 }
 
-.pagination button {
+.pagination-all-table button {
     padding: 0.5rem 1rem;
     border: 1px solid #52525b;
     border-radius: 4px;
@@ -227,17 +227,17 @@
     transition: background-color 0.2s;
 }
 
-.pagination button:hover:not(:disabled) {
+.pagination-all-table button:hover:not(:disabled) {
     background: #dc2626;
     border-color: #dc2626;
 }
 
-.pagination button:disabled {
+.pagination-all-table button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.pagination span {
+.pagination-all-table span {
     color: #a1a1aa;
     font-size: 0.875rem;
 }

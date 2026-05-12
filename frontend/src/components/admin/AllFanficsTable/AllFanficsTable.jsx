@@ -174,7 +174,7 @@ function AllFanficsTable() {
 
             {/* Пагинация */}
             {pagination.last_page > 1 && (
-                <div className="pagination">
+                <div className="pagination-all-table">
                     <button 
                         disabled={pagination.current_page === 1}
                         onClick={() => loadFanfics(pagination.current_page - 1)}

@@ -65,7 +65,7 @@
     font-weight: 600;
     height: 29px;
     left: 29px;
-    top: calc(100% - 222px); 
+    top: calc(100% - 227px); 
     width: calc(100% - 80px);
     color: #ffffff;
     margin: 0;
@@ -75,9 +75,9 @@
 }
 .fanfik-author {
     position: absolute;
-    height: 14px;
+    height: 19px;
     left: 29px;
-    top: calc(100% - 196px); 
+    top: calc(100% - 196px);
     width: calc(100% - 58px);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -121,7 +121,7 @@
     width: auto;
     height: 10px;
     font-size: 20px;
-    left: 74px;
+    left: 87px;
     top: calc(100% - 104px); 
     font-weight: bold;
     color: #86efac;
@@ -129,7 +129,7 @@
 .fanfik-status {
     position: absolute;
     top: calc(100% - 80px); 
-    height: 14px;
+    height: 18px;
     left: 29px;
     width: calc(100% - 58px);
     color: #a1a1aa;
@@ -139,7 +139,7 @@
 }
 .fanfik-tags {
     position: absolute;
-    height: 14px;
+    height: 18px;
     left: 29px;
     top: calc(100% - 60px); 
     width: calc(100% - 58px);
@@ -162,7 +162,7 @@
     gap: 5px;                 
 }
 .fanfik-likes-count{
-    left: 60px; 
+    left: 65px; 
 }
 .fanfik-views-icon,
 .fanfik-likes-hint {
