@@ -12,32 +12,6 @@ const api = axios.create({
     timeout: 10000,
 });
 
-// api.js - добавьте в interceptor.request
-api.interceptors.request.use(
-    (config) => {
-        console.log(`[API] ${config.method.toUpperCase()} ${config.baseURL}${config.url}`, {
-            headers: config.headers,
-            data: config.data,
-            timestamp: new Date().toISOString()
-        });
-        
-        // 🔥 КРИТИЧЕСКИЙ ЛОГ: если запрашивают GET /login
-        if (config.method === 'get' && config.url?.includes('/login')) {
-            console.error('🚨 ОБНАРУЖЕН GET-запрос к /login! Stack:', new Error().stack);
-        }
-        
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        console.error('[API Request Error]', error);
-        return Promise.reject(error);
-    }
-);
-
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');

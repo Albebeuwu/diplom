@@ -2142,22 +2142,19 @@
     margin-top: 8px;
 }
 
-.back-btn {
-    position: absolute;
-    left: 24px;
-    top: 32px;
+.back-btn-paid {
     background: none;
-    border: 1px solid #333;
+    border: none;
     color: #fff;
     cursor: pointer;
     font-size: 13px;
-    padding: 6px 14px;
+    padding: 16px 24px;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.back-btn:hover {
+.back-btn-paid:hover {
     border-color: #670000;
     color: #670000;
 }
@@ -2319,12 +2316,11 @@
     color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .payment-amount strong {
-    font-size: 24px;
-    color: #670000;
+    font-size: 28px;
     font-weight: 400;
 }
 

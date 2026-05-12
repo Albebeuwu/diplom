@@ -85,7 +85,7 @@ function FiltersPanel({ filters, onFilterChange, onReset }) {
     }
 
     return (
-        <div className={`filters-panel ${isSticky ? 'sticky' : ''}`}>
+        <div className={`filters-panel-all-fanfics ${isSticky ? 'sticky' : ''}`}>
             <div className="filters-header">
                 <h3>Фильтры</h3>
                 <button className="reset-button" onClick={handleReset}>
