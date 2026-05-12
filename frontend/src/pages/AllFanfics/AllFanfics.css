@@ -187,7 +187,7 @@
     }
 }
 /* Пагинация */
-.pagination {
+.pagination-all-fanfics {
     display: flex;
     justify-content: center;
     align-items: center;

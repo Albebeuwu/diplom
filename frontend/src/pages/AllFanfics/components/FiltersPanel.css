@@ -1,11 +1,11 @@
-.filters-panel {
+.filters-panel-all-fanfics {
     background-color: rgba(39, 39, 42, 0.8);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
 }
-.filters-panel.sticky {
+.filters-panel-all-fanfics.sticky {
     position: fixed;
     top: 80px;
     width: 240px;

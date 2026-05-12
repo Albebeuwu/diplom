@@ -265,7 +265,7 @@ function AllFanfics() {
                             </div>
 
                             {pagination.totalPages > 1 && (
-                                <div className="pagination">
+                                <div className="pagination-all-fanfics">
                                     <button 
                                         className="pagination-btn"
                                         disabled={pagination.currentPage === 1}

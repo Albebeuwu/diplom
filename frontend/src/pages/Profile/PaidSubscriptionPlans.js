@@ -229,9 +229,7 @@ function PaidSubscriptionPlans({ onClose, onSubscriptionSuccess }) {
                 {paymentStep === 'payment' && selectedPlan && (
                     <>
                         <div className="modal-header">
-                            <button className="back-btn" onClick={handleBackToPlans}>← Назад</button>
-                            <h2>Оплата подписки</h2>
-                            <p>{selectedPlan.name} — {selectedPlan.price} ₽/месяц</p>
+                            <button className="back-btn-paid" onClick={handleBackToPlans}>← Назад</button>
                         </div>
                         
                         <form onSubmit={handlePayment} className="payment-form">
