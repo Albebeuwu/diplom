@@ -28,6 +28,13 @@ Route::post('/verify-and-register', [AuthController::class, 'verifyAndRegister']
 Route::post('/send-password-reset-code', [AuthController::class, 'sendPasswordResetCode']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+Route::get('/storage/{path}', function ($path) {
+    if (!Storage::disk('yandex')->exists($path)) {
+        abort(404);
+    }
+    return Storage::disk('yandex')->download($path);
+})->where('path', '.*');
+
 // =======================
 // Публичные маршруты для фанфиков (без авторизации)
 // =======================

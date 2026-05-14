@@ -717,7 +717,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`http://45.147.179.241/storage/${fanfic.file_path}`}
+                            href={`http://45.147.179.241/api/storage/${fanfic.file_path}`}
                             className="control-btn"
                             download
                             title="Скачать файл"
