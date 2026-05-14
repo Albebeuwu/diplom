@@ -12,6 +12,7 @@ function SurveyView({ surveyId, onClose }) {
     const [loading, setLoading] = useState(true);
     const [voting, setVoting] = useState(false);
     const [error, setError] = useState('');
+    const [totalVotes, setTotalVotes] = useState(0);
 
     useEffect(() => {
         loadSurvey();
@@ -21,15 +22,51 @@ function SurveyView({ surveyId, onClose }) {
         try {
             setLoading(true);
             const response = await authorService.getSurveyResults(surveyId);
+            console.log('Response from server:', response); // Для отладки
             setSurvey(response.survey);
             setResults(response.results);
             setHasVoted(response.has_voted);
+            
+            // Вычисляем общее количество голосов
+            calculateTotalVotes(response);
         } catch (err) {
             console.error('Error loading survey:', err);
             setError('Не удалось загрузить опрос');
         } finally {
             setLoading(false);
         }
+    };
+
+    // Функция для вычисления общего количества голосов
+    const calculateTotalVotes = (response) => {
+        let total = 0;
+        
+        // Вариант 1: из поля responses_count
+        if (response.survey?.responses_count) {
+            total = response.survey.responses_count;
+        }
+        // Вариант 2: из поля total_votes
+        else if (response.survey?.total_votes) {
+            total = response.survey.total_votes;
+        }
+        // Вариант 3: вычисляем из результатов (берем сумму голосов за первый вопрос)
+        else if (response.results && response.results.length > 0) {
+            const firstQuestionVotes = response.results[0]?.votes || [];
+            total = firstQuestionVotes.reduce((sum, vote) => sum + (vote.count || 0), 0);
+        }
+        // Вариант 4: вычисляем максимальное количество голосов среди всех вопросов
+        else if (response.results) {
+            let maxTotal = 0;
+            for (const questionResult of response.results) {
+                const questionTotal = (questionResult.votes || []).reduce((sum, vote) => sum + (vote.count || 0), 0);
+                if (questionTotal > maxTotal) {
+                    maxTotal = questionTotal;
+                }
+            }
+            total = maxTotal;
+        }
+        
+        setTotalVotes(total);
     };
 
     const handleAnswerChange = (questionIndex, optionIndex, type) => {
@@ -149,7 +186,7 @@ function SurveyView({ surveyId, onClose }) {
                             </div>
                         ))}
                         <div className="total-votes">
-                            Всего проголосовало: {survey.responses_count || 0} человек
+                            Всего проголосовало: {totalVotes} {getVotesWord(totalVotes)}
                         </div>
                     </div>
                 ) : (
@@ -196,6 +233,13 @@ function SurveyView({ surveyId, onClose }) {
             </div>
         </div>
     );
+}
+
+// Вспомогательная функция для склонения слова "человек"
+function getVotesWord(count) {
+    if (count % 10 === 1 && count % 100 !== 11) return 'человек';
+    if (count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20)) return 'человека';
+    return 'человек';
 }
 
 export default SurveyView;
