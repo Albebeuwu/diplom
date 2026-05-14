@@ -25,7 +25,6 @@ function FanficReader() {
     const [fontSize, setFontSize] = useState(16);
     const [theme, setTheme] = useState('dark');
     const [lineHeight, setLineHeight] = useState(1.6);
-    const [fontFamily, setFontFamily] = useState('Inter');
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [accessDenied, setAccessDenied] = useState(false);
@@ -524,14 +523,6 @@ function FanficReader() {
         }
     };
 
-    const fontFamilies = [
-        { name: 'Inter', value: 'Inter, sans-serif' },
-        { name: 'Georgia', value: 'Georgia, serif' },
-        { name: 'Arial', value: 'Arial, sans-serif' },
-        { name: 'Times New Roman', value: 'Times New Roman, serif' },
-        { name: 'Courier New', value: 'Courier New, monospace' },
-    ];
-
     const getStatusText = (status, previouslyApproved) => {
     switch (status) {
         case 'draft': return 'Черновик';
@@ -713,19 +704,6 @@ function FanficReader() {
                             ⤓+
                         </button>
                     </div>
-                    
-                    <select 
-                        className="font-select"
-                        value={fontFamily}
-                        onChange={(e) => setFontFamily(e.target.value)}
-                        title="Выберите шрифт"
-                    >
-                        {fontFamilies.map(font => (
-                            <option key={font.name} value={font.value}>
-                                {font.name}
-                            </option>
-                        ))}
-                    </select>
                 </div>
                 
                 <div className="controls-right">
@@ -739,7 +717,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.file_path}`} 
+                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241/api'}/storage/${fanfic.file_path}`} 
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -810,7 +788,7 @@ function FanficReader() {
                             >
                                 {fanfic.liked ? '♥' : '♡'} {fanfic.likes || 0}
                             </button>
-                            <span className="views">👁️ {fanfic.views || 0}</span>
+                            <span className="views">👁 {fanfic.views || 0}</span>
                         </div>
                     </div>
                     
@@ -856,10 +834,10 @@ function FanficReader() {
                                  fanfic.work_status}
                             </span>
                         </div>
-                        
+
                         <div className="meta-group">
                             <span className="meta-label">Слов:</span>
-                            <span className="meta-value">{fanfic.words_count?.toLocaleString() || 0}</span>
+                            <span className="meta-value">{fanfic.words_count}</span>
                         </div>
                         
                         <div className="meta-group">
@@ -895,7 +873,7 @@ function FanficReader() {
                     {fanfic.cover_image && (
                         <div className="fanfic-cover">
                             <img 
-                                src={`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/storage/${fanfic.cover_image}`} 
+                                src={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241/api'}/storage/${fanfic.cover_image}`} 
                                 alt={fanfic.title}
                                 onError={(e) => {
                                     e.target.style.display = 'none';
@@ -920,7 +898,6 @@ function FanficReader() {
                     style={{
                         fontSize: `${fontSize}px`,
                         lineHeight: lineHeight,
-                        fontFamily: fontFamily,
                         padding: '20px',
                         minHeight: '200px'
                     }}
@@ -1002,27 +979,6 @@ function FanficReader() {
                     <div className="moderation-warning">
                         ⚠️ Этот фанфик был отредактирован и ожидает повторной модерации. 
                         Изменения станут доступны читателям после одобрения администратором.
-                    </div>
-                )}
-                
-                {fanfic.file_path && (
-                    <div className="file-info">
-                        <div className="file-details">
-                            <span className="file-label">Формат файла:</span>
-                            <span className="file-value">{fanfic.file_type?.toUpperCase() || 'Неизвестно'}</span>
-                        </div>
-                        
-                        <div className="file-details">
-                            <span className="file-label">Размер файла:</span>
-                            <span className="file-value">
-                                {fanfic.file_size ? Math.round(fanfic.file_size / 1024) : 0} KB
-                            </span>
-                        </div>
-                        
-                        <div className="file-details">
-                            <span className="file-label">Оригинальное имя:</span>
-                            <span className="file-value">{fanfic.original_file_name || 'Неизвестно'}</span>
-                        </div>
                     </div>
                 )}
 

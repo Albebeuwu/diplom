@@ -1,4 +1,3 @@
-// FileUploader.js - улучшенная версия
 import React, { useState, useRef } from 'react';
 import './FileUploader.css';
 
@@ -8,29 +7,20 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef(null);
     
+    // Только TXT и MD форматы
     const ACCEPTED_TYPES = {
         'text/plain': '.txt',
         'text/markdown': '.md',
-        'application/msword': '.doc',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
-        'application/pdf': '.pdf',
     };
 
     const formatLabels = {
         'text/plain': 'TXT',
         'text/markdown': 'MD',
-        'application/msword': 'DOC',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOCX',
-        'application/pdf': 'PDF',
     };
 
     const supportedFormats = {
-        'HTML': ['.html', '.htm'],
-        'Markdown': ['.md'],
         'Text': ['.txt'],
-        'PDF': ['.pdf'],
-        'Word': ['.docx', '.doc'],
-        'RTF': ['.rtf']
+        'Markdown': ['.md']
     };
 
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -44,28 +34,24 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
             return;
         }
 
-        // Проверка формата
+        // Проверка формата - ТОЛЬКО TXT и MD
         const extension = selectedFile.name.split('.').pop().toLowerCase();
-        const isValidFormat = Object.values(supportedFormats)
-            .flat()
-            .some(ext => `.${extension}` === ext);
+        const isValidFormat = extension === 'txt' || extension === 'md';
 
         if (!isValidFormat) {
-            const allowedFormats = Object.keys(supportedFormats).join(', ');
-            alert(`Неподдерживаемый формат. Разрешенные форматы: ${allowedFormats}`);
+            alert('Неподдерживаемый формат. Разрешенные форматы: TXT, MD');
             return;
         }
 
         setFile(selectedFile);
         
         // Создаем предпросмотр для текстовых файлов
-        if (['txt', 'md', 'html', 'htm'].includes(extension)) {
+        if (extension === 'txt' || extension === 'md') {
             const reader = new FileReader();
             reader.onload = (e) => {
                 let content = e.target.result;
                 // Для Markdown можно добавить предпросмотр в формате HTML
                 if (extension === 'md') {
-                    // Опционально: конвертировать Markdown в HTML для предпросмотра
                     setPreview({
                         type: 'markdown',
                         content: content,
@@ -79,16 +65,6 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
                 }
             };
             reader.readAsText(selectedFile);
-        } else if (extension === 'pdf') {
-            setPreview({
-                type: 'pdf',
-                content: URL.createObjectURL(selectedFile)
-            });
-        } else {
-            setPreview({
-                type: 'file',
-                content: selectedFile.name
-            });
         }
 
         // Передаем файл родительскому компоненту
@@ -124,10 +100,6 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
     };
 
     const removeFile = () => {
-        // Очищаем URL для PDF если был создан
-        if (preview?.type === 'pdf' && preview.content) {
-            URL.revokeObjectURL(preview.content);
-        }
         setFile(null);
         setPreview(null);
         if (onFileSelect) {
@@ -139,14 +111,8 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
         const extension = fileName.split('.').pop().toLowerCase();
         
         const iconMap = {
-            'html': '🌐',
-            'htm': '🌐',
             'md': '📝',
             'txt': '📄',
-            'pdf': '📕',
-            'docx': '📘',
-            'doc': '📘',
-            'rtf': '📋',
         };
         
         return iconMap[extension] || '📁';
@@ -161,9 +127,7 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
     };
 
     const getSupportedFormatsText = () => {
-        return Object.entries(supportedFormats)
-            .map(([name, exts]) => `${name} (${exts.join(', ')})`)
-            .join(', ');
+        return 'TXT (.txt), Markdown (.md)';
     };
 
     return (
@@ -189,7 +153,7 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
                     type="file"
                     ref={fileInputRef}
                     onChange={(e) => handleFileSelect(e.target.files[0])}
-                    accept=".html,.htm,.md,.txt,.pdf,.docx,.doc,.rtf"
+                    accept=".txt,.md"
                     className="hidden-input"
                 />
                 
@@ -217,17 +181,6 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
                                 {preview.type === 'markdown' && preview.content.length > 500 && (
                                     <p className="preview-note">... (отображена первая часть текста)</p>
                                 )}
-                            </div>
-                        )}
-                        
-                        {preview && preview.type === 'pdf' && (
-                            <div className="pdf-preview">
-                                <h5>PDF документ:</h5>
-                                <iframe 
-                                    src={preview.content} 
-                                    title="PDF preview"
-                                    className="pdf-viewer"
-                                />
                             </div>
                         )}
 
@@ -276,23 +229,17 @@ function FileUploader({ onFileSelect, initialFile = null, error = '' }) {
                 <h4>Рекомендации по форматам:</h4>
                 <ul className="help-list">
                     <li>
-                        <strong>Markdown (.md)</strong> — рекомендуется для текстов с базовым форматированием
-                    </li>
-                    <li>
-                        <strong>HTML (.html, .htm)</strong> — сохраняет все форматирование, изображения и стили
+                        <strong>Markdown (.md)</strong> — рекомендуется для текстов с базовым форматированием (заголовки, списки, ссылки)
                     </li>
                     <li>
                         <strong>Текстовые файлы (.txt)</strong> — простой текст без форматирования
                     </li>
-                    <li>
-                        <strong>PDF/DOCX</strong> — подходят для сложных документов с изображениями
-                    </li>
                 </ul>
                 
                 <div className="format-tips">
-                    <p><strong>💡 Совет:</strong> Для лучшего отображения используйте Markdown или HTML</p>
-                    <p>🔗 Изображения в HTML должны быть с абсолютными ссылками</p>
+                    <p><strong>💡 Совет:</strong> Для лучшего отображения используйте Markdown</p>
                     <p>📝 Markdown поддерживает: заголовки, списки, ссылки, изображения и базовое форматирование</p>
+                    <p>📄 TXT файлы отображаются как обычный текст</p>
                 </div>
             </div>
         </div>

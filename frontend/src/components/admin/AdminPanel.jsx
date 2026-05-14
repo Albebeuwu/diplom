@@ -13,8 +13,17 @@ function AdminPanel() {
     const [activeTab, setActiveTab] = useState('users'); 
     const [users, setUsers] = useState([]);
     const [fanfics, setFanfics] = useState([]);
-    const [stats, setStats] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState({
+        total_users: 0,
+        active_users: 0,
+        blocked_users: 0,
+        admins: 0,
+        total_fanfics: 0,
+        pending: 0,
+        published: 0,
+        rejected: 0
+    });
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [rejectReason, setRejectReason] = useState('');
     const [selectedFanfic, setSelectedFanfic] = useState(null);
@@ -29,14 +38,10 @@ function AdminPanel() {
     const loadUsers = async () => {
         try {
             setLoading(true);
-            const [usersData, statsData] = await Promise.all([
-                authService.admin.getUsers(),
-                authService.admin.getStats()
-            ]);
+            const usersData = await authService.admin.getUsers();
             setUsers(usersData.users || usersData);
-            setStats(statsData.stats || statsData);
         } catch (err) {
-            setError('Ошибка загрузки данных: ' + (err.response?.data?.message || err.message));
+            setError('Ошибка загрузки пользователей: ' + (err.response?.data?.message || err.message));
         } finally {
             setLoading(false);
         }
@@ -57,9 +62,111 @@ function AdminPanel() {
     const loadFanficStats = async () => {
         try {
             setLoading(true);
-            const stats = await fanficService.admin.getFanficStats();
-            setStats(stats);
+            console.log('Загрузка статистики...');
+            const statsData = await fanficService.admin.getFanficStats();
+            console.log('Полученные данные статистики:', statsData);
+            
+            // Гибкая обработка полученных данных
+            let processedStats = {
+                total_users: 0,
+                active_users: 0,
+                blocked_users: 0,
+                admins: 0,
+                total_fanfics: 0,
+                pending: 0,
+                published: 0,
+                rejected: 0
+            };
+            
+            // Если пришли данные
+            if (statsData) {
+                // Обработка в зависимости от структуры ответа
+                const data = statsData.data || statsData.stats || statsData;
+                
+                // Заполняем статистику пользователей
+                processedStats.total_users = data.total_users || data.totalUsers || data.users_count || 0;
+                processedStats.active_users = data.active_users || data.activeUsers || data.active_count || 0;
+                processedStats.blocked_users = data.blocked_users || data.blockedUsers || data.blocked_count || 0;
+                processedStats.admins = data.admins || data.admin_count || 0;
+                
+                // Заполняем статистику фанфиков
+                processedStats.total_fanfics = data.total_fanfics || data.totalFanfics || data.fanfics_count || data.total || 0;
+                processedStats.pending = data.pending || data.pending_count || 0;
+                processedStats.published = data.published || data.published_count || data.approved || 0;
+                processedStats.rejected = data.rejected || data.rejected_count || 0;
+                
+                // Если есть отдельное поле для статистики фанфиков
+                if (data.fanfic_stats) {
+                    processedStats.total_fanfics = data.fanfic_stats.total || data.fanfic_stats.total_fanfics || processedStats.total_fanfics;
+                    processedStats.pending = data.fanfic_stats.pending || processedStats.pending;
+                    processedStats.published = data.fanfic_stats.published || data.fanfic_stats.approved || processedStats.published;
+                    processedStats.rejected = data.fanfic_stats.rejected || processedStats.rejected;
+                }
+            }
+            
+            console.log('Обработанная статистика:', processedStats);
+            setStats(processedStats);
         } catch (err) {
+            console.error('Ошибка загрузки статистики:', err);
+            setError('Ошибка загрузки статистики: ' + (err.response?.data?.message || err.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadCombinedStats = async () => {
+        try {
+            setLoading(true);
+            console.log('Загрузка общей статистики...');
+            
+            // Пытаемся загрузить статистику с двух эндпоинтов
+            const [userStats, fanficStats] = await Promise.all([
+                authService.admin.getStats().catch(err => {
+                    console.error('Ошибка загрузки статистики пользователей:', err);
+                    return null;
+                }),
+                fanficService.admin.getFanficStats().catch(err => {
+                    console.error('Ошибка загрузки статистики фанфиков:', err);
+                    return null;
+                })
+            ]);
+            
+            console.log('Статистика пользователей:', userStats);
+            console.log('Статистика фанфиков:', fanficStats);
+            
+            let processedStats = {
+                total_users: 0,
+                active_users: 0,
+                blocked_users: 0,
+                admins: 0,
+                total_fanfics: 0,
+                pending: 0,
+                published: 0,
+                rejected: 0
+            };
+            
+            // Обрабатываем статистику пользователей
+            if (userStats) {
+                const userData = userStats.stats || userStats.data || userStats;
+                processedStats.total_users = userData.total_users || userData.totalUsers || userData.users_count || 0;
+                processedStats.active_users = userData.active_users || userData.activeUsers || userData.active_count || 0;
+                processedStats.blocked_users = userData.blocked_users || userData.blockedUsers || userData.blocked_count || 0;
+                processedStats.admins = userData.admins || userData.admin_count || 0;
+            }
+            
+            // Обрабатываем статистику фанфиков
+            if (fanficStats) {
+                const fanficData = fanficStats.stats || fanficStats.data || fanficStats;
+                processedStats.total_fanfics = fanficData.total_fanfics || fanficData.totalFanfics || fanficData.fanfics_count || fanficData.total || 0;
+                processedStats.pending = fanficData.pending || fanficData.pending_count || 0;
+                processedStats.published = fanficData.published || fanficData.published_count || fanficData.approved || 0;
+                processedStats.rejected = fanficData.rejected || fanficData.rejected_count || 0;
+            }
+            
+            console.log('Объединенная статистика:', processedStats);
+            setStats(processedStats);
+        } catch (err) {
+            console.error('Ошибка загрузки статистики:', err);
             setError('Ошибка загрузки статистики: ' + (err.response?.data?.message || err.message));
         } finally {
             setLoading(false);
@@ -75,7 +182,6 @@ function AdminPanel() {
         }
     };
 
-    // Новая функция для блокировки пользователя
     const handleBlockUser = async () => {
         if (!blockModal.reason.trim()) {
             setError('Укажите причину блокировки');
@@ -92,7 +198,6 @@ function AdminPanel() {
         }
     };
 
-    // Новая функция для разблокировки пользователя
     const handleUnblockUser = async (userId) => {
         if (!window.confirm('Вы уверены, что хотите разблокировать этого пользователя?')) {
             return;
@@ -147,7 +252,7 @@ function AdminPanel() {
         if (tab === 'fanfics') {
             loadPendingFanfics();
         } else if (tab === 'stats') {
-            loadFanficStats();
+            loadCombinedStats(); // Используем комбинированную загрузку
         } else if (tab === 'users') {
             loadUsers();
         }
@@ -329,13 +434,13 @@ function AdminPanel() {
                                     </div>
                                     <div className="fanfic-actions">
                                         <button 
-                                            className="approve-btn"
+                                            className="approve-btn-admin"
                                             onClick={() => handleApproveFanfic(fanfic.id)}
                                         >
                                             Одобрить
                                         </button>
                                         <button 
-                                            className="reject-btn"
+                                            className="reject-btn-admin"
                                             onClick={() => openRejectModal(fanfic)}
                                         >
                                             Отклонить
@@ -344,7 +449,7 @@ function AdminPanel() {
                                             href={`/fanfic/${fanfic.id}`} 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="view-btn"
+                                            className="view-btn-admin"
                                         >
                                             Просмотреть
                                         </a>
@@ -370,44 +475,55 @@ function AdminPanel() {
 
             {activeTab === 'stats' && (
                 <div className="stats-container">
-                    <h2>Статистика</h2>
+                    <h2>Статистика сайта</h2>
                     {loading ? (
-                        <p>Загрузка...</p>
-                    ) : stats && (
-                        <div className="stats-grid">
-                            <div className="stat-card">
-                                <h3>Всего пользователей</h3>
-                                <p className="stat-number">{stats.total_users || 0}</p>
+                        <p>Загрузка статистики...</p>
+                    ) : (
+                        <>
+                            <div className="stats-section">
+                                <h3>Пользователи</h3>
+                                <div className="stats-grid">
+                                    <div className="stat-card">
+                                        <h4>Всего пользователей</h4>
+                                        <p className="stat-number">{stats.total_users || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>Активных пользователей</h4>
+                                        <p className="stat-number">{stats.active_users || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>Заблокировано</h4>
+                                        <p className="stat-number">{stats.blocked_users || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>Администраторов</h4>
+                                        <p className="stat-number">{stats.admins || 0}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="stat-card">
-                                <h3>Активных пользователей</h3>
-                                <p className="stat-number">{stats.active_users || 0}</p>
+                            
+                            <div className="stats-section">
+                                <h3>Фанфики</h3>
+                                <div className="stats-grid">
+                                    <div className="stat-card">
+                                        <h4>Всего фанфиков</h4>
+                                        <p className="stat-number">{stats.total_fanfics || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>На модерации</h4>
+                                        <p className="stat-number">{stats.pending || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>Опубликовано</h4>
+                                        <p className="stat-number">{stats.published || 0}</p>
+                                    </div>
+                                    <div className="stat-card">
+                                        <h4>Отклонено</h4>
+                                        <p className="stat-number">{stats.rejected || 0}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="stat-card">
-                                <h3>Заблокировано</h3>
-                                <p className="stat-number">{stats.blocked_users || 0}</p>
-                            </div>
-                            <div className="stat-card">
-                                <h3>Администраторов</h3>
-                                <p className="stat-number">{stats.admins || 0}</p>
-                            </div>
-                            <div className="stat-card">
-                                <h3>Всего фанфиков</h3>
-                                <p className="stat-number">{stats.total_fanfics || stats.total || 0}</p>
-                            </div>
-                            <div className="stat-card">
-                                <h3>На модерации</h3>
-                                <p className="stat-number">{stats.pending || 0}</p>
-                            </div>
-                            <div className="stat-card">
-                                <h3>Опубликовано</h3>
-                                <p className="stat-number">{stats.published || 0}</p>
-                            </div>
-                            <div className="stat-card">
-                                <h3>Отклонено</h3>
-                                <p className="stat-number">{stats.rejected || 0}</p>
-                            </div>
-                        </div>
+                        </>
                     )}
                 </div>
             )}
