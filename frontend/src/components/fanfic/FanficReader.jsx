@@ -717,7 +717,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241/api'}/storage/${fanfic.file_path}`} 
+                            href={`http://45.147.179.241/storage/${fanfic.file_path}`}
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -873,7 +873,7 @@ function FanficReader() {
                     {fanfic.cover_image && (
                         <div className="fanfic-cover">
                             <img 
-                                src={`${process.env.REACT_APP_API_URL || 'http://45.147.179.241/api'}/storage/${fanfic.cover_image}`} 
+                                src={`http://45.147.179.241/storage/${fanfic.cover_image}`}
                                 alt={fanfic.title}
                                 onError={(e) => {
                                     e.target.style.display = 'none';
