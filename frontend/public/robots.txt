@@ -1,3 +1,38 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /my-fanfics
+Disallow: /create-fanfic
+Disallow: /edit-fanfic
+
+# Закрываем динамические параметры
+Disallow: /*?*
+Disallow: /*tab=*
+
+# Sitemap
+Sitemap: http://45.147.179.241/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Правила для конкретных ботов
+User-agent: Yandex
+Allow: /
+Disallow: /api/
+Crawl-delay: 5
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Crawl-delay: 3
+
+# Защита от плохих ботов
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
