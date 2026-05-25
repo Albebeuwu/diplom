@@ -96,17 +96,17 @@
 }
 .fanfik-description {
     position: absolute;
-    height: 50px;
+    height: 40px;
     left: 29px;
     top: calc(100% - 156px); 
     width: calc(100% - 58px);
     color: #a1a1aa;
-    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.4;
+    text-overflow: ellipsis;
 }
 .fanfik-rating-label {
     position: absolute;

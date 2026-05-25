@@ -134,28 +134,6 @@ function ReportsManagement() {
         <div className="reports-management">
             <h2>Управление жалобами</h2>
 
-            {/* Статистика */}
-            {stats && (
-                <div className="stats-grid">
-                    <div className="stat-card">
-                        <h3>Всего</h3>
-                        <p className="stat-number">{stats.total}</p>
-                    </div>
-                    <div className="stat-card pending">
-                        <h3>На рассмотрении</h3>
-                        <p className="stat-number">{stats.pending}</p>
-                    </div>
-                    <div className="stat-card approved">
-                        <h3>Принято</h3>
-                        <p className="stat-number">{stats.approved}</p>
-                    </div>
-                    <div className="stat-card rejected">
-                        <h3>Отклонено</h3>
-                        <p className="stat-number">{stats.rejected}</p>
-                    </div>
-                </div>
-            )}
-
             {/* Фильтры и поиск */}
             <div className="filters-section">
                 <div className="filter-buttons">

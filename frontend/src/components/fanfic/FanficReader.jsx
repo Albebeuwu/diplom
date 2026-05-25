@@ -717,7 +717,7 @@ function FanficReader() {
                     
                     {hasSubscription && fanfic.file_path && (
                         <a 
-                            href={`http://45.147.179.241/api/storage/${fanfic.file_path}`}
+                            href={`http://45.147.179.241/api/storage/${fanfic.file_path}`} 
                             className="control-btn"
                             download
                             title="Скачать файл"
@@ -796,10 +796,36 @@ function FanficReader() {
                     
                     <div className="author-info">
                         <div className="author-avatar">
-                            {fanfic.user?.name?.charAt(0) || 'А'}
+                            {fanfic.user?.avatar_url ? (
+                                <img 
+                                    src={fanfic.user.avatar_url} 
+                                    alt={fanfic.user?.name || 'Автор'}
+                                    className="author-avatar-img"
+                                    onError={(e) => {
+                                        // Если аватарка не загрузилась, показываем инициалы
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = fanfic.user?.name?.charAt(0) || 'А';
+                                    }}
+                                />
+                            ) : (
+                                <span className="author-avatar-initials">
+                                    {fanfic.user?.name?.charAt(0) || 'А'}
+                                </span>
+                            )}
                         </div>
                         <div className="author-details">
-                            <span className="author-name">{fanfic.user?.name || 'Аноним'}</span>
+                            <span className="author-name">
+                                {fanfic.user?.name || 'Аноним'}
+                                {fanfic.user?.id && (
+                                    <button 
+                                        className="author-profile-link"
+                                        onClick={() => navigate(`/user/${fanfic.user.id}`)}
+                                        title="Перейти в профиль автора"
+                                    >
+                                        ›
+                                    </button>
+                                )}
+                            </span>
                             <span className="publish-date">
                                 {fanfic.published_at 
                                     ? `Опубликовано: ${formatDate(fanfic.published_at)}`
@@ -833,11 +859,6 @@ function FanficReader() {
                                  fanfic.work_status === 'abandoned' ? 'Заброшен' : 
                                  fanfic.work_status}
                             </span>
-                        </div>
-
-                        <div className="meta-group">
-                            <span className="meta-label">Слов:</span>
-                            <span className="meta-value">{fanfic.words_count}</span>
                         </div>
                         
                         <div className="meta-group">
