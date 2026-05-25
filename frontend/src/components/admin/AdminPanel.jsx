@@ -283,7 +283,7 @@ function AdminPanel() {
         <div className="admin-panel">
             <div className="admin-header">
                 <h1>Панель администратора</h1>
-                <button className="logout-btn" onClick={logout}>Выйти</button>
+                <button className="logout-btn-admin" onClick={logout}>Выйти</button>
             </div>
 
             <div className="admin-tabs">
@@ -421,7 +421,6 @@ function AdminPanel() {
                                         <p><strong>Автор:</strong> {fanfic.user?.name || 'Неизвестно'}</p>
                                         <p><strong>Фэндом:</strong> {fanfic.fandom || 'Не указан'}</p>
                                         <p><strong>Рейтинг:</strong> {fanfic.rating?.code || 'Не указан'}</p>
-                                        <p><strong>Слов:</strong> {fanfic.words_count}</p>
                                         <p><strong>Дата создания:</strong> {new Date(fanfic.created_at).toLocaleDateString()}</p>
                                     </div>
                                     <div className="fanfic-description">

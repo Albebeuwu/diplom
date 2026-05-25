@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { fanficService } from '../../services/fanficService';
 import FanfikCards from '../../components/cards/FanfikCards/FanfikCards';
+import { useAuth } from '../../context/AuthContext'; 
 import './Profile.css';
 
 function MyFanfics() {
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const [fanfics, setFanfics] = useState([]);
@@ -28,7 +30,7 @@ function MyFanfics() {
             const formattedFanfics = (Array.isArray(data.data) ? data.data : (data || [])).map(fanfic => ({
                 id: fanfic.id,
                 title: fanfic.title,
-                author: fanfic.user?.name || 'Аноним',
+                author: fanfic.user?.name || user?.name || 'Аноним',
                 authorId: fanfic.user_id,
                 fandom: fanfic.fandom || 'Не указан',
                 description: fanfic.description || 'Без описания',

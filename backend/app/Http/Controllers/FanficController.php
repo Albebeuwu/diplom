@@ -89,12 +89,16 @@ class FanficController extends Controller
             return response()->json(['error' => 'Фанфик не найден'], 404);
         }
 
-        // Проверяем доступ: автор может видеть все, остальные только опубликованные
-        if ($fanfic->status !== 'approved' && $fanfic->user_id !== Auth::id()) {
+        // Получаем текущего пользователя
+        $user = Auth::user();
+        
+        if ($fanfic->status !== 'approved' && 
+            $fanfic->user_id !== $user->id && 
+            $user->role !== 'admin') {
             return response()->json(['error' => 'Доступ запрещен'], 403);
         }
 
-        // Для автора используем extracted_text (уже объединенный текст)
+        // Для автора или админа используем extracted_text
         if ($fanfic->extracted_text) {
             $content = $fanfic->extracted_text;
             
@@ -333,14 +337,16 @@ class FanficController extends Controller
             return response()->json(['error' => 'Фанфик не найден'], 404);
         }
 
+        $user = Auth::user();
+
         // Увеличиваем счетчик просмотров для опубликованных работ
         if ($fanfic->status === 'approved') {
             $fanfic->increment('views');
         }
 
-        // Для неопубликованных работ проверяем автора
+        // Для неопубликованных работ проверяем автора ИЛИ админа
         if ($fanfic->status !== 'approved') {
-            if (!Auth::check() || $fanfic->user_id !== Auth::id()) {
+            if (!$user || ($fanfic->user_id !== $user->id && $user->role !== 'admin')) {
                 return response()->json(['error' => 'Доступ запрещен'], 403);
             }
         }
@@ -689,14 +695,26 @@ class FanficController extends Controller
     // Публичный метод для просмотра фанфика (для читателей)
     public function showPublished($id, Request $request)
     {
-
         $fanfic = Fanfic::with(['user', 'rating', 'tags'])->find($id);
         
         if (!$fanfic) {
             return response()->json(['error' => 'Фанфик не найден'], 404);
         }
 
-        // Изменённая проверка статуса
+        $user = Auth::user();
+        $isAdmin = $user && $user->role === 'admin';
+        $isAuthor = $user && $fanfic->user_id === $user->id;
+
+        // Автор и админ могут видеть фанфики в любом статусе
+        if ($isAuthor || $isAdmin) {
+            // Не увеличиваем просмотры для неопубликованных работ
+            if ($fanfic->status === 'approved' && !$request->has('no_increment')) {
+                $fanfic->increment('views');
+            }
+            return response()->json($fanfic);
+        }
+
+        // Для остальных пользователей - обычная проверка
         $allowedStatuses = ['approved'];
         if ($fanfic->is_early_access || $fanfic->is_exclusive) {
             $allowedStatuses[] = 'pending'; 
@@ -705,8 +723,6 @@ class FanficController extends Controller
         if (!in_array($fanfic->status, $allowedStatuses)) {
             return response()->json(['error' => 'Фанфик не опубликован'], 403);
         }
-
-        $user = Auth::user();
 
         $hasHypeAccess = $user?->hasHypeOrHigherSubscription() ?? false;
 
@@ -740,37 +756,44 @@ class FanficController extends Controller
     public function getPublishedContent($id)
     {
         $fanfic = Fanfic::find($id);
+        $user = Auth::user();
 
         if (!$fanfic) {
             return response()->json(['error' => 'Фанфик не найден'], 404);
         }
 
-        if ($fanfic->status !== 'approved' && $fanfic->status !== 'pending') {
+        // Разрешаем доступ админам и авторам к любым статусам
+        $isAdmin = $user && $user->role === 'admin';
+        $isAuthor = $user && $fanfic->user_id === $user->id;
+        
+        if ($fanfic->status !== 'approved' && $fanfic->status !== 'pending' && !$isAdmin && !$isAuthor) {
             return response()->json(['error' => 'Фанфик не опубликован'], 403);
         }
 
-        $user = Auth::user();
-        $hasHypeAccess = $user?->hasHypeOrHigherSubscription() ?? false;
+        // Проверка эксклюзивного контента (пропускаем для админов и авторов)
+        if (!$isAdmin && !$isAuthor) {
+            $hasHypeAccess = $user?->hasHypeOrHigherSubscription() ?? false;
 
-        // Проверка эксклюзивного контента
-        if ($fanfic->is_exclusive && !$hasHypeAccess) {
-            return response()->json([
-                'error' => 'Этот фанфик является эксклюзивным и доступен только по подписке "Хайп"',
-                'requires_subscription' => true,
-                'is_exclusive' => true
-            ], 403);
+            // Проверка эксклюзивного контента
+            if ($fanfic->is_exclusive && !$hasHypeAccess) {
+                return response()->json([
+                    'error' => 'Этот фанфик является эксклюзивным и доступен только по подписке "Хайп"',
+                    'requires_subscription' => true,
+                    'is_exclusive' => true
+                ], 403);
+            }
+
+            // Проверка раннего доступа
+            if ($fanfic->is_early_access && $fanfic->early_access_until > now() && !$hasHypeAccess) {
+                return response()->json([
+                    'error' => 'Этот фанфик доступен только по подписке "Хайп" и выше',
+                    'requires_subscription' => true,
+                    'early_access_until' => $fanfic->early_access_until
+                ], 403);
+            }
         }
 
-        // Проверка раннего доступа
-        if ($fanfic->is_early_access && $fanfic->early_access_until > now() && !$hasHypeAccess) {
-            return response()->json([
-                'error' => 'Этот фанфик доступен только по подписке "Хайп" и выше',
-                'requires_subscription' => true,
-                'early_access_until' => $fanfic->early_access_until
-            ], 403);
-        }
-
-        // 🔥 Получаем контент (ОДИН РАЗ)
+        // Получаем контент
         $content = '';
         
         if ($fanfic->extracted_text) {
@@ -784,7 +807,7 @@ class FanficController extends Controller
             }
         }
 
-        // 🔥 Разбиваем на главы (используем тот же маркер, что и в update())
+        // Разбиваем на главы
         $chapters = $this->splitContentIntoChapters($content, $fanfic->file_type);
 
         return response()->json([
@@ -864,6 +887,11 @@ class FanficController extends Controller
             ->map(function($progress) {
                 $fanfic = $progress->fanfic;
                 
+                // 🔥 ПРОВЕРКА: если фанфик удален, пропускаем запись
+                if (!$fanfic) {
+                    return null;
+                }
+                
                 // Фильтруем фанфики с ранним доступом
                 $hasHypeAccess = Auth::user()?->hasHypeOrHigherSubscription() ?? false;
                 
@@ -884,14 +912,14 @@ class FanficController extends Controller
                     'last_position' => $progress->last_position,
                     'last_read_at' => $progress->last_read_at,
                     'author' => [
-                        'id' => $fanfic->user->id,
-                        'name' => $fanfic->user->name
+                        'id' => $fanfic->user->id ?? null,
+                        'name' => $fanfic->user->name ?? 'Неизвестный автор'
                     ]
                 ];
             })
             ->filter(); // Убираем null значения
         
-        return response()->json($history);
+        return response()->json($history->values()); // values() для сброса ключей
     }
 
     // Удалить из истории чтения
