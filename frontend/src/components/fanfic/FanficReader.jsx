@@ -813,13 +813,16 @@ function FanficReader() {
                                 </span>
                             )}
                         </div>
-                        <div className="author-details">
+                       <div className="author-details">
                             <span className="author-name">
                                 {fanfic.user?.name || 'Аноним'}
                                 {fanfic.user?.id && (
                                     <button 
                                         className="author-profile-link"
-                                        onClick={() => navigate(`/user/${fanfic.user.id}`)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate(`/author/${fanfic.user.id}`);
+                                        }}
                                         title="Перейти в профиль автора"
                                     >
                                         ›
