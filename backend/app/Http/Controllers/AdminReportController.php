@@ -19,7 +19,7 @@ class AdminReportController extends Controller
     // Получить все жалобы для админа
     public function index(Request $request)
     {
-        $query = Report::with(['user', 'fanfic', 'status'])
+        $query = Report::with(['user', 'fanfic.user', 'status'])  
             ->orderBy('created_at', 'desc');
 
         // Фильтр по статусу

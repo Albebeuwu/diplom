@@ -875,7 +875,7 @@ function FanficReader() {
                     </div>
                     
                     {fanfic.description && (
-                        <div className="fanfic-description">
+                        <div className="fanfic-description-reader">
                             <h3>Описание</h3>
                             <p>{fanfic.description}</p>
                         </div>
