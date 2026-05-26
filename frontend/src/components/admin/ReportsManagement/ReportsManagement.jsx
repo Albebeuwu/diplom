@@ -207,7 +207,7 @@ function ReportsManagement() {
                                 </div>
                                 <div className="col-fanfic">
                                     <div className="fanfic-info">
-                                        <span className="fanfic-title">{report.fanfic?.title}</span>
+                                        <span className="fanfic-title-admin">{report.fanfic?.title}</span>
                                         <span className="fanfic-author">Автор: {report.fanfic?.user?.name}</span>
                                     </div>
                                 </div>

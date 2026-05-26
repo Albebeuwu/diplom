@@ -399,21 +399,21 @@
     font-size: 1.1rem;
 }
 /* Описание и теги */
-.fanfic-description {
+.fanfic-description-reader {
     margin-bottom: 2rem;
     padding: 1.5rem;
     border-radius: 12px;
     line-height: 1.6;
 }
-.fanfic-reader.light .fanfic-description {
+.fanfic-reader.light .fanfic-description-reader {
     background-color: #e9ecef;
     color: #495057;
 }
-.fanfic-reader.dark .fanfic-description {
+.fanfic-reader.dark .fanfic-description-reader {
     background-color: #27272a;
     color: #a1a1aa;
 }
-.fanfic-description h3 {
+.fanfic-description-reader h3 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: inherit;

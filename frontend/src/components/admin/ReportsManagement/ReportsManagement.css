@@ -190,7 +190,7 @@
     gap: 0.25rem;
 }
 
-.fanfic-title {
+.fanfic-title-admin {
     color: #fff;
     font-weight: 500;
     text-decoration: none;
@@ -482,7 +482,7 @@
 }
 
 .confirm-reject-btn, .close-modal-btn {
-    background-color: #dc2626;
+    background-color: #670000;
     color: white;
 }
 
