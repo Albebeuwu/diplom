@@ -86,3 +86,9 @@ body.custom-background.fanfic-reading::after {
     z-index: 1;
     background: transparent;
 }
+
+
+
+.top-fire-works .fanfik-card-wrapper .fanfik-badges{
+    top: 30px;
+}
