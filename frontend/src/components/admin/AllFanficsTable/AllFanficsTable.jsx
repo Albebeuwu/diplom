@@ -111,7 +111,6 @@ function AllFanficsTable() {
                     <option value="draft">Черновик</option>
                     <option value="pending">На модерации</option>
                     <option value="approved">Одобрен</option>
-                    <option value="published">Опубликован</option>
                     <option value="rejected">Отклонён</option>
                 </select>
                 <select value={filters.rating_id} onChange={(e) => handleFilterChange('rating_id', e.target.value)}>

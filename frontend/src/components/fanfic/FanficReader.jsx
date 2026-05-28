@@ -1047,7 +1047,7 @@ function FanficReader() {
             </div>
             
             {fanfic.status === 'approved' && (
-                <CommentsSection fanficId={fanfic.id} />
+                <CommentsSection fanficId={fanfic.id} theme={theme} />
             )}
 
             {showReportModal && (

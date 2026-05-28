@@ -3,7 +3,7 @@ import { commentService } from '../../../services/commentService';
 import { useAuth } from '../../../context/AuthContext';
 import './CommentsSection.css';
 
-function CommentsSection({ fanficId }) {
+function CommentsSection({ fanficId, theme = 'dark' }) {
     const { user, isAuthenticated } = useAuth();
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
@@ -96,7 +96,7 @@ function CommentsSection({ fanficId }) {
     };
 
     return (
-        <div className="comments-section">
+        <div className={`comments-section ${theme}`}>
             <h3>Комментарии ({comments.length})</h3>
 
             {!isAuthenticated ? (

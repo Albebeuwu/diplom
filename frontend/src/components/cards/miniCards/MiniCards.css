@@ -131,6 +131,10 @@
         opacity: 1;
         background: rgba(0, 0, 0, 0.7);
     }
+
+    .mini-card{
+        width: 10%;
+    }
 }
 /* Дополнительные стили для прогресса */
 .mini-card-progress {
@@ -191,3 +195,4 @@
 .empty-state p {
     margin: 0;
 }
+

@@ -195,7 +195,7 @@
     .fanfik-card-wrapper {
         display: flex;
         flex-direction: row;
-        height: auto;
+        height: 272px;
         min-height: 180px;
     }
     
@@ -355,6 +355,11 @@
 
 /* Дополнительная настройка для маленьких телефонов (до 576px) */
 @media (max-width: 576px) {
+
+    .fanfik-card-wrapper {
+        height: 232px;
+    }
+
     .fanfik-card-image {
         width: 110px;
         height: 230px;
@@ -376,6 +381,7 @@
     
     .fanfik-description {
         -webkit-line-clamp: 2;
+        height: 20px;
     }
     
     .rating-status-row {
@@ -385,6 +391,7 @@
     
     .fanfik-rating {
         font-size: 14px;
+        margin-left: 15px;
     }
     
     .fanfik-status {
