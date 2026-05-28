@@ -303,24 +303,6 @@ function ProfileInfo() {
                             <div className="field-hint-new">ВЫ МОЖЕТЕ ПОМЕНЯТЬ ЕГО В ЛЮБОЕ ВРЕМЯ</div>
                         </div>
 
-                        {/* Номер телефона */}
-                        <div className="info-field-new">
-                            <label className="field-label-new">НОМЕР ТЕЛЕФОНА</label>
-                            {isEditing ? (
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="field-input-new"
-                                    placeholder="Введите номер телефона"
-                                />
-                            ) : (
-                                <div className="field-value-new">{formData.phone || 'Не указан'}</div>
-                            )}
-                            <div className="field-hint-new">ВЫ МОЖЕТЕ ПОМЕНЯТЬ ЕГО В ЛЮБОЕ ВРЕМЯ</div>
-                        </div>
-
                         {/* Почта */}
                         <div className="info-field-new">
                             <label className="field-label-new">ПОЧТА</label>
@@ -339,21 +321,6 @@ function ProfileInfo() {
                             <div className="field-hint-new">ВЫ МОЖЕТЕ ПОМЕНЯТЬ ЕГО В ЛЮБОЕ ВРЕМЯ</div>
                         </div>
 
-                        {/* Дата рождения */}
-                        <div className="info-field-new">
-                            <label className="field-label-new">ДАТА РОЖДЕНИЯ</label>
-                            {isEditing ? (
-                                <input
-                                    type="date"
-                                    name="birthday"
-                                    value={formData.birthday}
-                                    onChange={handleChange}
-                                    className="field-input-new"
-                                />
-                            ) : (
-                                <div className="field-value-new">{formData.birthday || 'Не указана'}</div>
-                            )}
-                        </div>
                     </div>
 
                     {/* Кнопка сохранения */}

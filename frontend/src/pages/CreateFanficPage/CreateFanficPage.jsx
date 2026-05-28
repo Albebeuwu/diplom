@@ -476,9 +476,9 @@ function CreateFanficPage() {
                     {/* Блок для подписчиков Hype+ */}
                     {hasHypeOrHigher && (
                         <div className="form-section premium-section">
-                            <h2>⭐ Премиум возможности (Хайп/Читун)</h2>
+                            <h2>⭐ Премиум возможности</h2>
                             <p className="section-subtitle">
-                                Доступно для авторов с подпиской "Хайп" и "Читун"
+                                Доступно для авторов с подпиской "Хайп" 
                             </p>
                             
                             <div className="premium-options">
@@ -491,7 +491,7 @@ function CreateFanficPage() {
                                     <div className="option-content">
                                         <span className="option-title">🚀 Ранний доступ (на 7 дней раньше)</span>
                                         <span className="option-description">
-                                            Фанфик будет доступен только пользователям с подпиской "Хайп" и выше в течение 7 дней.
+                                            Фанфик будет доступен только пользователям с подпиской "Хайп" в течение 7 дней.
                                             После этого он станет доступен всем.
                                         </span>
                                     </div>
