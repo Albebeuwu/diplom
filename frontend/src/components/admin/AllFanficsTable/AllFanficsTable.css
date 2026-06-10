@@ -99,12 +99,6 @@
     background-color: #52525b;
 }
 
-.fanfics-table th::after {
-    content: ' ⇅';
-    font-size: 10px;
-    opacity: 0.5;
-}
-
 .fanfics-table tbody tr {
     border-bottom: 1px solid #3f3f46;
     transition: background-color 0.2s;

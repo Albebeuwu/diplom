@@ -135,12 +135,12 @@ function AllFanficsTable() {
             <table className="fanfics-table">
                 <thead>
                     <tr>
-                        <th onClick={() => handleSort('id')}>ID {sort.field === 'id' && (sort.order === 'desc' ? '↓' : '↑')}</th>
-                        <th onClick={() => handleSort('title')}>Название {sort.field === 'title' && (sort.order === 'desc' ? '↓' : '↑')}</th>
+                        <th>ID</th>
+                        <th>Название</th>
                         <th>Автор</th>
-                        <th onClick={() => handleSort('status')}>Статус {sort.field === 'status' && (sort.order === 'desc' ? '↓' : '↑')}</th>
-                        <th onClick={() => handleSort('views')}>Просмотры {sort.field === 'views' && (sort.order === 'desc' ? '↓' : '↑')}</th>
-                        <th onClick={() => handleSort('created_at')}>Дата {sort.field === 'created_at' && (sort.order === 'desc' ? '↓' : '↑')}</th>
+                        <th>Статус</th>
+                        <th>Просмотры</th>
+                        <th>Дата</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
