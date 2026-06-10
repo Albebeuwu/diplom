@@ -1014,10 +1014,6 @@
     transition: color 0.2s;
 }
 
-.draft-title.clickable:hover {
-    color: #450a0a;
-}
-
 .draft-format {
     padding: 0.25rem 0.5rem;
     background-color: #2a2a2d;

@@ -312,9 +312,6 @@ function Drafts() {
                                                 <strong>Обновлен:</strong> {formatDate(draft.updated_at)}
                                             </span>
                                             <span className="meta-item">
-                                                <strong>Слов:</strong> {draft.words_count || 0}
-                                            </span>
-                                            <span className="meta-item">
                                                 <strong>Размер:</strong> {draft.file_size ? Math.round(draft.file_size / 1024) : 0} КБ
                                             </span>
                                         </div>
