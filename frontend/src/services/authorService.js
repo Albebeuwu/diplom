@@ -22,8 +22,8 @@ export const authorService = {
 
     // Отписаться от автора
     unsubscribe: async (authorId) => {
-        const response = await api.post(`/authors/${authorId}/unsubscribe`);
-        return response.data;
+    	const response = await api.delete(`/authors/${authorId}/unsubscribe`);  
+    	return response.data;
     },
 
     // Проверить подписку
