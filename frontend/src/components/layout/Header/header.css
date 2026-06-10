@@ -61,6 +61,7 @@
     width: 272px;
     transition: all 0.3s ease; 
     justify-content: center;
+    cursor: pointer;
 }
 .user-profile-name {
     font-size: 1.7rem;

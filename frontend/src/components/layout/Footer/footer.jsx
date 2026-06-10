@@ -6,19 +6,11 @@ import CreateButton from "../../buttons/CreateButton/CreateButton";
 
 function Footer() {
   const navigate = useNavigate();
-      const { isAuthenticated } = useAuth(); // Добавьте isAdmin здесь
-  
-      const handleCreateClick = () => {
-          if (!isAuthenticated) {
-              navigate('/login');
-              return;
-          }
-          navigate('/create');
-      };
+  const { isAuthenticated } = useAuth(); 
 
   return ( 
     <footer>
-        <CreateButton onClick={handleCreateClick} />
+        <CreateButton onClick={() => navigate('/create-fanfic')} />
         <div className="logo">
           <img src="/logo.png" alt="Логотип" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} />
         </div>
