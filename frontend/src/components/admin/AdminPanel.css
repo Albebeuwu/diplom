@@ -1,6 +1,5 @@
 .admin-panel {
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin: 20px 30px 40px 30px;
     min-height: 100vh;
     padding: 2rem;
     background-color: rgba(39, 39, 42, 0.8);
