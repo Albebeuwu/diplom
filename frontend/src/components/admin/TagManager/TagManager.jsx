@@ -16,6 +16,21 @@ function TagManager() {
     const [error, setError] = useState('');
     const [filters, setFilters] = useState({ search: '', category: '' });
 
+    // Доступные категории с русскими названиями
+    const categoryOptions = [
+        { value: '', label: 'Все категории' },
+        { value: 'genre', label: 'Жанр' },
+        { value: 'theme', label: 'Тема' },
+        { value: 'content_warning', label: 'Предупреждение' }
+    ];
+
+    // Функция для получения русского названия категории
+    const getCategoryLabel = (categoryValue) => {
+        if (!categoryValue) return '—';
+        const option = categoryOptions.find(opt => opt.value === categoryValue);
+        return option ? option.label : categoryValue;
+    };
+
     const loadTags = async (page = 1) => {
         setLoading(true);
         try {
@@ -58,7 +73,7 @@ function TagManager() {
             }
             setNewTag({ name: '', slug: '', category: '', description: '' });
             setEditingTag(null);
-            loadTags(pagination.current_page); // Перезагружаем текущую страницу
+            loadTags(pagination.current_page);
         } catch (err) {
             setError(err.response?.data?.message || 'Ошибка сохранения');
         } finally {
@@ -81,7 +96,7 @@ function TagManager() {
     };
 
     const applyFilters = () => {
-        loadTags(1); // Сбрасываем на первую страницу при фильтрации
+        loadTags(1);
     };
 
     const resetFilters = () => {
@@ -113,6 +128,7 @@ function TagManager() {
             {/* Форма создания/редактирования */}
             <form onSubmit={handleSubmit} className="tag-form">
                 <input 
+                    className='tag-input'
                     placeholder="Название тега *" 
                     value={newTag.name}
                     onChange={e => setNewTag({...newTag, name: e.target.value})}
@@ -123,11 +139,17 @@ function TagManager() {
                     value={newTag.slug}
                     onChange={e => setNewTag({...newTag, slug: e.target.value})}
                 />
-                <input 
-                    placeholder="Категория" 
+                <select 
                     value={newTag.category}
                     onChange={e => setNewTag({...newTag, category: e.target.value})}
-                />
+                >
+		    <option value={''}>Выберите категорию</option>
+                    {categoryOptions.slice(1).map(option => ( 
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
                 <textarea 
                     placeholder="Описание" 
                     value={newTag.description}
@@ -157,12 +179,11 @@ function TagManager() {
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
                 >
-                    <option value="">Все категории</option>
-                    <option value="genre">Жанр</option>
-                    <option value="character">Персонаж</option>
-                    <option value="pairing">Пейринг</option>
-                    <option value="warning">Предупреждение</option>
-                    <option value="other">Другое</option>
+                    {categoryOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
                 </select>
                 <button onClick={applyFilters}>🔎 Найти</button>
                 <button onClick={resetFilters}>🔄 Сброс</button>
@@ -192,7 +213,7 @@ function TagManager() {
                                     <td className="tag-slug">{tag.slug}</td>
                                     <td>
                                         {tag.category ? (
-                                            <span className="category-badge">{tag.category}</span>
+                                            <span className="category-badge">{getCategoryLabel(tag.category)}</span>
                                         ) : '—'}
                                     </td>
                                     <td className="usage-count">
@@ -215,7 +236,7 @@ function TagManager() {
                                             title="Удалить"
                                             disabled={tag.fanfics_count > 0}
                                         >🗑️</button>
-                                    </td>
+                                     </td>
                                 </tr>
                             ))}
                         </tbody>
