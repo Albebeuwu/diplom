@@ -400,3 +400,36 @@
 .tags-table + .pagination:empty {
     display: none;
 }
+
+.tag-form select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #52525b;
+    border-radius: 4px;
+    background: #3f3f46;
+    
+    font-size: 14px;
+    transition: border-color 0.2s;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px;
+}
+
+.tag-form select:hover {
+    background-color: #3f3f46;
+    border-color: #71717a;
+}
+
+.tag-form select:focus {
+    outline: none;
+    border-color: #450a0a;
+    box-shadow: 0 0 0 2px rgba(69, 10, 10, 0.2);
+}
+
+.tag-input{
+    grid-column: 1/3;
+}
