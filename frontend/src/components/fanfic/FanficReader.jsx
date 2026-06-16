@@ -712,7 +712,7 @@ function FanficReader() {
                         onClick={toggleTheme}
                         title="Сменить тему"
                     >
-                        {theme === 'light' ? '☾ Темная' : ' 𖤓 Светлая'}
+                        {theme === 'light' ? '☾ Темная' : ' ☼ Светлая'}
                     </button>
                     
                     {hasSubscription && fanfic.file_path && (
@@ -1017,22 +1017,22 @@ function FanficReader() {
                         </button>
                         
                         <button 
-    className="footer-btn scroll-top"
-    onClick={() => {
-        // Проверяем, есть ли скролл у контейнера
-        const container = contentContainerRef.current;
-        
-        if (container && container.scrollHeight > container.clientHeight) {
-            // Если контейнер скроллится - скроллим его
-            container.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            // Иначе скроллим окно
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    			}}
-			>
-   		 		⬆ Наверх
-			</button>
+                            className="footer-btn scroll-top"
+                            onClick={() => {
+                                // Проверяем, есть ли скролл у контейнера
+                                const container = contentContainerRef.current;
+                                
+                                if (container && container.scrollHeight > container.clientHeight) {
+                                    // Если контейнер скроллится - скроллим его
+                                    container.scrollTo({ top: 0, behavior: 'smooth' });
+                                } else {
+                                    // Иначе скроллим окно
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }
+                            }}
+                        >
+                            ⬆ Наверх
+                        </button>
                         
                         {(fanfic.user_id === user?.id && fanfic.work_status !== 'completed') && (
                             <button 
